@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/metro-icons.min.css">
+    <link rel="stylesheet" href="/css/costum/exr.css">
+</head>
+<body>
+  <div class="wrap-login card py-4">
+    <div class="card-header login-header">
+      <img src="/logo.png">
+      <h5 class="login-title card-title pt-2">
+        Masuk
+      </h5>
+    </div>
+    <div class="card-body pt-0">
+      <% if(locals.err) { %>
+      <small class="text-danger">
+        <%=err%>
+      </small>
+      <% } %>
+        <form action="/" method="post" autocomplete="off">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="mif-user"></i>
+              </span>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Username" autofocus>
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="mif-lock"></i>
+              </span>
+            </div>
+            <input type="password" name="password" class="form-control" placeholder="Password">
+          </div>
+        </div>
+        <div class="login-footer card-footer pt-0 pb-4">
+          <button type="submit" class="btn btn-primary float-right">
+            <i class="mif-paper-plane"></i>
+            Login
+          </button>
+        </div>
+      </form>
+  </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
