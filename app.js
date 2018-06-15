@@ -1,14 +1,15 @@
 var createError = require('http-errors');
 var express = require('express');
 var session = require('express-session');
+var expressValidator = require('express-validator');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql = require('promise-mysql');
 
-bcrypt = require('bcrypt');
+global.bcrypt = require('bcrypt');
 
-sql = mysql.createPool({
+global.sql = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
@@ -20,12 +21,16 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+var validatorOptions = {};
+
+app.use(expressValidator(validatorOptions));
 app.use(session({secret: 'ewarga',resave: true, saveUninitialized: true}));
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,8 +38,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next){
+  res.view =  function(page, data) {
+    if (data == undefined) {
+      data = {};
+    }
+    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:1]).then(function(rows){
+      try {
+        data.getLevelUser = rows[0].level_user;
+        res.render(page,data);
+      } catch (error) {
+        res.redirect('/');
+      }
+    });
+  }
+  next();
+});
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/home', usersRouter);
 
 
 // catch 404 and forward to error handler
