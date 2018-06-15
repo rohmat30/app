@@ -29,20 +29,34 @@ router.get('/logout',function(req, res){
 });
 
 router.get('/ubah-password',async function(req, res, next){
-  let data = {title: 'Ubah Password'};
+  let data = {};
+  data.title = 'Ubah Password';
   res.view('autentikasi/ubah-password', data);
 }).post('/ubah-password',async function(req, res, next){
   let data = {};
-  data.validate = await Autentikasi.ganti_password(req);
+  data.validate = await Autentikasi.ubah_password(req);
   data.title = 'Ubah Password';
-  console.log(data);
   res.view('autentikasi/ubah-password',data);
 });
 
-router.post('/api/valid-password.json',async function(req, res, next){
-  let data = await Autentikasi.ganti_password(req);
-  res.json(data);
+
+router.get('/ubah-username',async function(req, res, next){
+  let data = {};
+  data.title = 'Ubah Username';
+  res.view('autentikasi/ubah-username', data);
+}).post('/ubah-username',async function(req, res, next){
+  let data = {};
+  data.validate = await Autentikasi.ubah_username(req);
+  console.log(data);
+  data.title = 'Ubah Username';
+  try {
+    data.password = data.validate.find(x => x.param == 'password') == undefined?req.body.password:'';  // try {
+  } catch (error) {
+    data.password = null;
+  }
+  res.view('autentikasi/ubah-username',data);
 });
+
 
 router.all('*',function(req, res, next){
   if (!req.session.id_user) {

@@ -25,7 +25,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-var validatorOptions = {};
+var validatorOptions = {
+};
 
 app.use(expressValidator(validatorOptions));
 app.use(session({secret: 'ewarga',resave: true, saveUninitialized: true}));

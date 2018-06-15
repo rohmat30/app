@@ -10,7 +10,7 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <%=validate.msg%>
+                <%-validate.msg%>
             </div>
             <% } else { %>
             <div class="alert alert-danger">
@@ -23,29 +23,21 @@
             </div>
             <% }%>
         <% }%>
-        <form action="/ubah-password" method="post">
+        <form action="/ubah-username" method="post">
             <div class="form-row mb-3">
                 <div class="col-form-label col-lg-3 col-md-4 col-xl-2 text-md-right">
-                    <label>Password Lama</label>
+                    <label>Password</label>
                 </div>
                 <div class="col-lg-9 col-md-8 col-xl-10">
-                    <input type="password" class="form-control" placeholder="Password Lama" name="oldPass"/>
+                    <input type="password" class="form-control" placeholder="Masukan Password" name="password" value="<%=locals.password?password:''%>"/>
                 </div>
             </div>
             <div class="form-row mb-3">
                 <div class="col-form-label col-lg-3 col-md-4 col-xl-2 text-md-right">
-                    <label>Password Baru</label>
+                    <label>Username Baru</label>
                 </div>
                 <div class="col-lg-9 col-md-8 col-xl-10">
-                    <input type="password" class="shadow-none form-control" placeholder="Password Baru" name="newPass"/>
-                </div>
-            </div>
-            <div class="form-row mb-3">
-                <div class="col-form-label col-lg-3 col-md-4 col-xl-2 text-md-right">
-                    <label>Konfirmasi Password</label>
-                </div>
-                <div class="col-lg-9 col-md-8 col-xl-10">
-                    <input type="password" class="form-control" placeholder="Konfirmasi Password" name="rePass"/>
+                    <input type="text" class="form-control" placeholder="Masukan Username Baru" name="newUsername"/>
                 </div>
             </div>
             
@@ -54,7 +46,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="mif-paper-plane"></i>
                         <span>
-                            Ganti Password
+                            Ganti Username
                         </span>
                     </button>
                 </div>
