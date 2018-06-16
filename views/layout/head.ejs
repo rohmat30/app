@@ -35,16 +35,20 @@
         <aside class="collapse ta-sidebar p-0 py-2 pr-md-2 col-md-3 col-xl-2" id="navbarToggler">
         <div class="ta-links">
             <ul class="nav ta-sidenav">
-            <% for(var i in menu) {
-                if(Array.isArray(menu[i].url)) {%>
-                <li class="<%=(menu[i].open)?'active ':''%>ta-dropdown">
+            <%
+            var activePage = locals.activePage?locals.activePage:null;
+            for(var i in menu) {
+                if(Array.isArray(menu[i].url)) {
+                var select = (menu[i].url.findIndex(e => e.url == activePage)+1)?true:false;
+                    %>
+                <li class="<%-(select)?'active ':''%>ta-dropdown">
                     <a href="">
                         <i class="<%=menu[i].icon%>"></i>
                         <%=menu[i].text%>
                     </a>
                     <ul>
                     <% for(var j in menu[i].url) { %>
-                        <li<%-(menu[i].url[j].active?' class=active':'')%>>
+                        <li<%-(menu[i].url[j].url == activePage?' class=active':'')%>>
                             <a href="<%=menu[i].url[j].url%>">
                                 <i class="<%=menu[i].url[j].icon?menu[i].url[j].icon:'mif-folder'%>"></i>
                                 <%=menu[i].url[j].text%>
@@ -54,7 +58,7 @@
                     </ul>
                 </li>
                 <% } else { %>
-                    <li<%-(menu[i].open?' class="active"':'')%>><a href="<%=menu[i].url%>"><i class="<%=menu[i].icon%>"></i> <%=menu[i].text%></a></li>
+                    <li<%-(activePage != null?menu[i].url == activePage?' class="active"':'':'')%>><a href="<%=menu[i].url%>"><i class="<%=menu[i].icon%>"></i> <%=menu[i].text%></a></li>
                 <% }
             } %>
             </ul>

@@ -34,16 +34,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var menuRW = [
+const menu = [[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
   {url: [{url:'/kas-rw',text: 'Kas RW',icon:'mif-paypal'},{url: '/donatur',text: 'Donatur',icon:'mif-folder-shared'}],text: 'Kelola Keuangan',icon: 'mif-dollar'},
   {url: '/kelola-rt',text: 'Kelola RT',icon: 'mif-user-secret'},
   {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-books'},
   {url: '/pelayanan',text: 'Pelayanan',icon: 'mif-layers'},
-  {url: '/laporan',text: 'Laporan',icon: 'mif-news'}
-];
-
-var menuRT = [
+  {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
+],[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
   {url: [{url:'/pendataan-warga',text: 'Pendataan Warga',icon:'mif-user-plus'},{url: '/mutasi-warga',text: 'Mutasi Warga',icon:'mif-user-minus'}],text: 'Kelola Warga',icon: 'mif-users'},
   {url: [{url:'/tanggapan-layanan',text: 'Tanggapan',icon:'mif-open-book'},{url: '/jenis-layanan',text: 'Jenis Layanan',icon:'mif-menu'}],text: 'Layanan',icon: 'mif-cabinet'},
@@ -53,16 +51,14 @@ var menuRT = [
   {url: '/kas-rt',text: 'Kas RT',icon: 'mif-paypal'},
   {url: '/buku-tamu',text: 'Buku Tamu',icon: 'mif-book-reference'},
   {url: '/inventaris',text: 'Inventaris',icon: 'mif-shopping-basket2'},
-  {url: '/laporan',text: 'Laporan',icon: 'mif-news'}
-];
-
-var menuWarga = [
+  {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
+],[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
   {url: '/pengajuan-layanan',text: 'Pengajuan Layanan',icon: 'mif-upload'},
   {url: '/pengumuman',text: 'Pengumuman',icon: 'mif-bell'},
   {url: '/pengajuan-aspirasi',text: 'Pengajuan Aspirasi',icon: 'mif-evernote'},
-  {url: '/anggota-keluarga',text: 'Anggota Keluarga',icon: 'mif-users'}
-];
+  {url: '/anggota-keluarga',text: 'Anggota Keluarga',icon: 'mif-users'},
+]];
 
 
 var active_page = function(data, page) {
@@ -85,7 +81,7 @@ var active_page = function(data, page) {
       break;
     }
   }
-  return data;
+  return active;
 }
 
 app.use(function(req, res, next){
@@ -93,20 +89,14 @@ app.use(function(req, res, next){
     if (data == undefined) {
       data = {};
     }
-    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:2]).then(function(rows){
+    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:1]).then(function(rows){
       try {
-        data.getLevelUser = rows[0].level_user;
-        switch (data.getLevelUser) {
-          case 1:
-            data.menu = active_page(menuRW,'/kas-rw');
-            break;
-          case 2:
-            data.menu = active_page(menuRT,'/mutasi-warga');
-            break;
-          default:
-            data.menu = active_page(menuWarga,'/about');
-            break;
+        levelUser = rows[0].level_user;
+        data.getLevelUser = levelUser;
+        if (data.activePage && active_page(menu[levelUser-1],data.activePage) == null){
+            next();
         }
+        data.menu = menu[levelUser-1];          
         res.render(page,data);
       } catch (error) {
         res.redirect('/');

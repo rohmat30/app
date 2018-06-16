@@ -10,7 +10,7 @@ router.get('/',async function(req, res) {
   if (req.session.id_user) {
     res.redirect('/home');
   } else {
-    res.render('index', { title: 'title'});
+    res.render('index', { title: 'Login'});
   }
 }).post('/',async function(req, res){
   let username = req.body.username,
@@ -56,6 +56,13 @@ router.get('/ubah-username',async function(req, res, next){
     data.password = null;
   }
   res.view('autentikasi/ubah-username',data);
+});
+
+router.get('/donatur', function(req, res) {
+  res.view('users',{data: req.session.id_user,activePage:'/donatur'});
+});
+router.get('/kas-rw', function(req, res) {
+  res.view('users',{data: req.session.id_user,activePage:'/kas-rw'});
 });
 
 
