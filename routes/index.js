@@ -6,6 +6,7 @@ var Autentikasi = require('../obj/autentikasi');
 
 /* GET home page. */
 router.get('/',async function(req, res) {
+
   if (req.session.id_user) {
     res.redirect('/home');
   } else {
@@ -59,9 +60,9 @@ router.get('/ubah-username',async function(req, res, next){
 
 
 router.all('*',function(req, res, next){
-  if (!req.session.id_user) {
-    res.redirect('/');
-  }
+  // if (!req.session.id_user) {
+  //   res.redirect('/');
+  // }
   next();
 });
 module.exports = router;

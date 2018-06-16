@@ -35,32 +35,28 @@
         <aside class="collapse ta-sidebar p-0 py-2 pr-md-2 col-md-3 col-xl-2" id="navbarToggler">
         <div class="ta-links">
             <ul class="nav ta-sidenav">
-            <li class="active"><a routeLink="/"><i class="mif-home"></i> Beranda</a></li>
-            <li><a routeLink="/alert"><i class="mif-bell"></i> Alert</a></li>
-            <li><a routeLink="/button"><i class="mif-paper-plane"></i> Button</a></li>
-            <li><a routeLink="/navbar"><i class="mif-dashboard"></i> Navbar</a></li>
-            <li class="ta-dropdown">
-                <a href=""><i class="mif-folder-minus"></i> Dropdown</a>    
-                <ul>
-                <li>
-                    <a href=""><i class="mif-chevron-right"></i> Lorem</a>
+            <% for(var i in menu) {
+                if(Array.isArray(menu[i].url)) {%>
+                <li class="<%=(menu[i].open)?'active ':''%>ta-dropdown">
+                    <a href="">
+                        <i class="<%=menu[i].icon%>"></i>
+                        <%=menu[i].text%>
+                    </a>
+                    <ul>
+                    <% for(var j in menu[i].url) { %>
+                        <li<%-(menu[i].url[j].active?' class=active':'')%>>
+                            <a href="<%=menu[i].url[j].url%>">
+                                <i class="<%=menu[i].url[j].icon?menu[i].url[j].icon:'mif-folder'%>"></i>
+                                <%=menu[i].url[j].text%>
+                            </a>
+                        </li>
+                    <% } %>
+                    </ul>
                 </li>
-                <li>
-                    <a href=""><i class="mif-chevron-right"></i> Ipsum</a>
-                </li>
-                </ul>
-            </li>
-            <li class="ta-dropdown active">
-                <a href=""><i class="mif-folder-plus"></i> Dropdown</a>
-                <ul>
-                <li>
-                    <a href=""><i class="mif-folder"></i> Lorem</a>
-                </li>
-                <li>
-                    <a href=""><i class="mif-folder"></i>  Ipsum</a>
-                </li>
-                </ul>
-            </li>
+                <% } else { %>
+                    <li<%-(menu[i].open?' class="active"':'')%>><a href="<%=menu[i].url%>"><i class="<%=menu[i].icon%>"></i> <%=menu[i].text%></a></li>
+                <% }
+            } %>
             </ul>
         </div>
         </aside>

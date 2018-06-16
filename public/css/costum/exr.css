@@ -103,6 +103,12 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   padding: 7.5px 15px;
   position: relative;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .ta-sidenav li a:hover {
   background: #f7f7f7;
@@ -123,10 +129,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .ta-sidenav li.active > a {
   font-weight: bold;
+}
+.ta-sidenav > li.active > a {
   background: #E3F2FD;
   color: #1976D2;
 }
-.ta-sidenav li.active > a:hover {
+.ta-sidenav > li.active > a:hover {
   color: #1976D2;
 }
 
