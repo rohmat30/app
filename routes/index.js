@@ -35,7 +35,7 @@ router.get('/ubah-password',async function(req, res, next){
   res.view('autentikasi/ubah-password', data);
 }).post('/ubah-password',async function(req, res, next){
   let data = {};
-  data.validate = await Autentikasi.ubah_password(req);
+  data.validate = await Autentikasi.ubahPassword(req);
   data.title = 'Ubah Password';
   res.view('autentikasi/ubah-password',data);
 });
@@ -47,7 +47,7 @@ router.get('/ubah-username',async function(req, res, next){
   res.view('autentikasi/ubah-username', data);
 }).post('/ubah-username',async function(req, res, next){
   let data = {};
-  data.validate = await Autentikasi.ubah_username(req);
+  data.validate = await Autentikasi.ubahUsername(req);
   console.log(data);
   data.title = 'Ubah Username';
   try {

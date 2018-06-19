@@ -2,7 +2,7 @@ var Autentikasi = function() {};
 
 Autentikasi.prototype.login = async (username,password) => {
     try {
-        let [get] = await User.cekUser(username);
+        let [get] = await User.verifikasiUser(username);
 
         let cekpassword = await bcrypt.compare(password,get.password);
 
@@ -21,7 +21,7 @@ Autentikasi.prototype.logout = function(req,res) {
     res.redirect('/');
 }
 
-Autentikasi.prototype.ubah_password = async function(req) {
+Autentikasi.prototype.ubahPassword = async function(req) {
     let [get] = await User.cekUser(req.session.id_user);
     let isPass = await bcrypt.compare(req.body.oldPass,get.password);
 
@@ -62,7 +62,7 @@ Autentikasi.prototype.ubah_password = async function(req) {
     } else {
         try {
             let pwd = await bcrypt.hash(req.body.newPass,5);
-            let sqlupdate = await sql.query('UPDATE user SET password = ? WHERE id_user = ?',[pwd,req.session.id_user]);
+            let sqlupdate = await sql.query('UPDATE user SET password = ? WHERE id_user = ?',[pwd,get.id_user]);
             return {valid: true, msg: 'Password berhasil diubah!', data: sqlupdate};
         } catch (error) {
             return [{msg: error}]
@@ -71,8 +71,8 @@ Autentikasi.prototype.ubah_password = async function(req) {
 }
 
 
-Autentikasi.prototype.ubah_username = async function(req) {
-    let [get] = await User.cekUser('1');
+Autentikasi.prototype.ubahUsername = async function(req) {
+    let [get] = await User.cekUser(req.session.id_user);
     let isPass = await bcrypt.compare(req.body.password,get.password);
     let [cek] = await User.cekUser(req.body.newUsername);
     
@@ -109,7 +109,7 @@ Autentikasi.prototype.ubah_username = async function(req) {
         return invalid;
     } else {
         try {
-            let sqlupdate = await sql.query('UPDATE user SET username = ? WHERE id_user = ?',[req.body.newUsername,req.session.id_user]);
+            let sqlupdate = await sql.query('UPDATE user SET username = ? WHERE id_user = ?',[req.body.newUsername,get.id_user]);
             return {valid: true, msg: 'Username berhasil diubah menjadi <b>'+req.body.newUsername+'</b>!',data:sqlupdate};
         } catch (error) {
             return [{msg: error}]

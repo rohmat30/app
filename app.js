@@ -18,6 +18,7 @@ global.sql = mysql.createPool({
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var pendataanWargaRouter = require('./routes/pendataan-warga');
 
 var app = express();
 // view engine setup
@@ -89,14 +90,42 @@ app.use(function(req, res, next){
     if (data == undefined) {
       data = {};
     }
-    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:1]).then(function(rows){
+    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:2]).then(function(rows){
       try {
         levelUser = rows[0].level_user;
         data.getLevelUser = levelUser;
         if (data.activePage && active_page(menu[levelUser-1],data.activePage) == null){
             next();
         }
-        data.menu = menu[levelUser-1];          
+        data.menu = menu[levelUser-1];
+        var errors = data.errors_custom?data.errors_custom:req.validationErrors();
+        
+        data.field_error = {};
+
+        console.log(data.field_error);
+        if (errors) {
+          var el = [];
+          for (const key in errors) {
+            if (errors.hasOwnProperty(key)) {
+              let index_array = errors.map((e) => {return e.param}).indexOf(errors[key].param);
+              if (!el.includes(index_array)) {
+                data.field_error[errors[key].param] = {value: errors[key].value,msg: errors[key].msg};
+                el.push(index_array);
+              }
+            }
+          }
+          delete el;
+        }
+        if (data.autovalue != false) {
+          if (data.setvalue) {
+            data.input = data.setvalue[0];
+            console.log(data.input);
+          } else {
+            data.input = req.body;            
+          }
+        } else {
+          data.input = {};
+        }
         res.render(page,data);
       } catch (error) {
         res.redirect('/');
@@ -108,6 +137,7 @@ app.use(function(req, res, next){
 
 app.use('/', indexRouter);
 app.use('/home', usersRouter);
+app.use('/pendataan-warga', pendataanWargaRouter);
 
 
 // catch 404 and forward to error handler

@@ -1,0 +1,63 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/pendataan-warga" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 mt-0">
+                <div class="media mb-md-3 clearfix">
+                    <div class="media-body mb-0 mt-sm-1">
+                            <p class="text-capitalize d-none d-sm-block float-right">Status Tinggal : <%=data[0].status_tinggal%></p>
+                        <h5 class="mb-0 ta-list-title">
+                            No. KK : <%=data[0].nomor_kk%>
+                        </h5>
+                        <p class="text-capitalize mb-0">Alamat : <%=data[0].alamat%></p>
+                        <p class="text-capitalize d-block d-sm-none">Status Tinggal : <%=data[0].status_tinggal%></p>
+                    </div>
+                </div>
+                <div class="btn-fixed px-md-3 pt-md-3">
+                    <a href="/pendataan-warga/ubah-kk/<%=data[0].id_keluarga%>" class="btn btn-sm-xs btn-default bg-white text-dark mb-md-0 mb-3">
+                        <i class="mif-layers"></i>
+                        <span class="d-none d-md-inline-block">Ubah Keluarga</span>
+                    </a>
+                    <a href="/pendataan-warga/tambah-anggota/<%=data[0].id_keluarga%>" class="btn btn-primary float-left mr-md-3 mb-0">
+                        <i class="mif-user-plus"></i>
+                        <span class="d-none d-md-inline-block">Tambah Anggota</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% if (data[0].nama_lengkap!=null) { %>
+            <div class="row font-weight-bold m-0 py-2 py-md-0 d-none d-md-flex">
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-4 col-lg-3 order-2 order-md-1">NIK</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-5 col-lg-3 order-1 order-md-2">Nama Lengkap</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3">Status Keluarga</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">Tanggal Lahir</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 order-5 d-none d-xl-flex">Jenis Kelamin</div>
+            </div>
+            <% for(var i in data) { %>
+            <div class="row ta-list-table m-0 py-2 py-md-0">
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-4 col-lg-3 order-2 order-md-1 small-xs"><span class="d-md-none">NIK</span> <%=data[i].nik%></div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-5 col-lg-3 order-1 order-md-2  font-weight-xs-bold">
+                    <a href="/pendataan-warga/ubah-anggota/<%=parseInt(data[i].id_keluarga)%>/<%=parseInt(data[i].id_user)%>" class="btn btn-sm btn-outline-default float-right shadow-none icon-action"><i class="mif-pencil"></i></a>
+                    <%=data[i].nama_lengkap%>
+                </div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3 small-xs text-capitalize"><%=data[i].status_keluarga.replace(/\_/,' ')%></div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">
+                    <%=data[i].tanggal_lahir%>
+                </div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 order-5 d-none d-xl-flex"><%=data[i].jenis_kelamin=='L'?'Laki-laki':'Perempuan'%></div>
+            </div>
+            <% } %>
+        <% } else { %>
+            <div class="alert alert-danger">Belum ada anggota keluarga</div>
+        <% } %>
+    </div>
+</div>
+<% include ../layout/foot %>
