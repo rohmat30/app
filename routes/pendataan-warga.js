@@ -7,7 +7,11 @@ router.get('/', async function(req, res) {
   var data = {};
   data.title = 'Pendataan Warga';
   data.activePage = '/pendataan-warga';
-  data.data = await User.semuaKeluarga();
+  if (req.query.q) {
+    data.data = await User.cariKeluarga(req.query.q,req.session.id_rt);
+  } else {
+    data.data = await User.semuaKeluarga(req.session.id_rt);    
+  }
   res.view('pendataan-warga/index',data);
 });
 
@@ -35,12 +39,19 @@ router.get('/ubah-kk/:id(\\d+)', async function(req, res) {
   data.setvalue = await User.cekKK(req.params.id);
   data.param = req.params;
   data.setvalue[0].tanggal_menempati = data.setvalue[0].tanggal_menempati!=null?data.setvalue[0].tanggal_menempati.split('/'):null;
+  if (data.setvalue[0].status_tinggal == 'tetap') {
+    data.disable_input = {status_tinggal: true};
+  }
   res.view('pendataan-warga/form-keluarga',data);
 }).post('/ubah-kk/:id(\\d+)', async function(req, res) {
   var data = {};
   data.title = 'Ubah Keluarga';
   data.activePage = '/pendataan-warga';
   data.param = req.params;
+  cekKK = await User.cekKK(req.params.id);
+  if (cekKK[0].status_tinggal == 'tetap') {
+    data.disable_input = {status_tinggal: true};
+  }
   var success = await User.ubahKeluarga(req);
   if (Array.isArray(success)) {
     if(success[0].use) {
@@ -111,6 +122,20 @@ router.get('/ubah-anggota/:id(\\d+)/:id_user(\\d+)',async function(req, res, nex
 
 
 router.get('/anggota-keluarga/:id(\\d+)', async function(req, res, next) {
+  var data = {};
+  data.title = 'Pendataan Warga';
+  data.activePage = '/pendataan-warga';
+  data.data = await User.detailKeluarga(req.params.id);
+  let verifikasi_kk = await User.cekKK(req.params.id);
+  if (verifikasi_kk.length) {
+    res.view('pendataan-warga/anggota-keluarga',data);
+  } else {
+    next();
+  }
+});
+
+
+router.get('/perbaharui-kk/:id(\\d+)', async function(req, res, next) {
   var data = {};
   data.title = 'Pendataan Warga';
   data.activePage = '/pendataan-warga';

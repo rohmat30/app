@@ -1,0 +1,68 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/buku-tamu" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <% if(locals.simpan) { %>
+        <div class="alert alert-success"><%=simpan%></div>
+        <% } %>
+        <form action="" method="post" autocomplete="off">
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Nomor Induk Kependudukan</label>
+                <input type="text" class="shadow-none form-control<%=locals.field_error.nik?' is-invalid':null%>" maxlength="16" placeholder="Nomor Induk Kependudukan / Nomor KTP" name="nik" value="<%=input.nik%>"/>
+                <% if (locals.field_error.nik) { %>
+                    <small class="text-danger"><%=locals.field_error.nik.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Nama Tamu</label>
+                <input type="text" class="shadow-none form-control<%=locals.field_error.nama_tamu?' is-invalid':null%>" maxlength="30" placeholder="Nama Tamu" name="nama_tamu" value="<%=input.nama_tamu%>"/>
+                <% if (locals.field_error.nama_tamu) { %>
+                    <small class="text-danger"><%=locals.field_error.nama_tamu.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Tujuan</label>
+                <input type="text" class="shadow-none form-control<%=locals.field_error.tujuan?' is-invalid':null%>" maxlength="75" placeholder="Tujuan" name="tujuan" value="<%=input.tujuan%>"/>
+                <% if (locals.field_error.tujuan) { %>
+                    <small class="text-danger"><%=locals.field_error.tujuan.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Alamat Asal</label>
+                <textarea name="alamat_asal" class="shadow-none form-control<%=locals.field_error.nama_lengkap?' is-invalid':null%>" maxlength="30" placeholder="Alamat Asal"><%=input.alamat_asal%></textarea>
+                <% if (locals.field_error.alamat_asal) { %>
+                    <small class="text-danger"><%=locals.field_error.alamat_asal.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="form-row mb-3 align-middle">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">
+                    <i class="mif-paper-plane"></i>
+                    <span>
+                        Simpan
+                    </span>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<% include ../layout/foot %>

@@ -21,6 +21,7 @@ router.get('/',async function(req, res) {
     res.render('index', { title:'Login', err: auth.msg });
   } else {
     req.session.id_user = auth.id_user;
+    req.session.id_rt = auth.id_rt;
     res.redirect('/home');
   }
 })
@@ -48,7 +49,6 @@ router.get('/ubah-username',async function(req, res, next){
 }).post('/ubah-username',async function(req, res, next){
   let data = {};
   data.validate = await Autentikasi.ubahUsername(req);
-  console.log(data);
   data.title = 'Ubah Username';
   try {
     data.password = data.validate.find(x => x.param == 'password') == undefined?req.body.password:'';  // try {

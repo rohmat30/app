@@ -1,11 +1,21 @@
 var User = function() {};
 
 User.prototype.verifikasiUser = (value) => {
-    return sql.query('SELECT id_user,password FROM user WHERE (username = ? OR nik = ?) AND status_akun = ? LIMIT 1',[value,value,'1']);
+    return sql.query('SELECT user.id_user,user.password,rt.id_rt FROM user INNER JOIN keluarga ON user.id_keluarga = keluarga.id_keluarga INNER JOIN rt ON keluarga.id_rt = rt.id_rt WHERE (user.username = ? OR user.nik = ?) AND keluarga.status_tinggal = ? AND keluarga.status_kk IN(1,2) AND user.aktif = ? LIMIT 1',[value,value,'tetap',1]);
 };
 
 User.prototype.cekUser = (value) => {
-    return sql.query('SELECT id_user,nik,nama_lengkap,tempat_lahir,DATE_FORMAT(tanggal_lahir,"%d/%m/%Y") as tanggal_lahir,jenis_kelamin,agama,status_keluarga,level_user,pendidikan,password,status_akun,status_perkawinan,id_keluarga FROM user WHERE username = ? OR nik = ? OR id_user = ? LIMIT 1',[value,value,value]);
+    return sql.query('SELECT id_user,nik,nama_lengkap,tempat_lahir,DATE_FORMAT(tanggal_lahir,"%d/%m/%Y") as tanggal_lahir,jenis_kelamin,agama,status_keluarga,level_user,pendidikan,password,status_perkawinan,id_keluarga FROM user WHERE username = ? OR nik = ? OR id_user = ? LIMIT 1',[value,value,value]);
+};
+
+
+User.prototype.cekAktifUser = (value) => {
+    return sql.query('SELECT id_user,nik,nama_lengkap,tempat_lahir,DATE_FORMAT(tanggal_lahir,"%d/%m/%Y") as tanggal_lahir,jenis_kelamin,agama,status_keluarga,level_user,pendidikan,password,status_perkawinan,id_keluarga FROM user WHERE (username = ? OR nik = ? OR id_user = ?) AND aktif = ? LIMIT 1',[value,value,value,1]);
+};
+
+
+User.prototype.cekNonAktifUser = (value) => {
+    return sql.query('SELECT id_user,nik,nama_lengkap,tempat_lahir,DATE_FORMAT(tanggal_lahir,"%d/%m/%Y") as tanggal_lahir,jenis_kelamin,agama,status_keluarga,level_user,pendidikan,password,status_perkawinan,id_keluarga FROM user WHERE (username = ? OR nik = ? OR id_user = ?) AND aktif = ? LIMIT 1',[value,value,value,0]);
 };
 
 User.prototype.cekKK = (value) => {
@@ -69,7 +79,7 @@ User.prototype.tambahKeluarga = async (req) => {
             try {
                 let {nomor_kk, status_tinggal, alamat, status_kepemilikan, tanggal_menempati} = req.body;
                 let tanggal = new Date(tanggal_menempati[1],parseInt(tanggal_menempati[0]-1),1);
-                let query = await sql.query('INSERT INTO keluarga(nomor_kk,status_tinggal,alamat, status_kepemilikan, tanggal_menempati) VALUES(?,?,?,?,?)',[nomor_kk, status_tinggal, alamat, status_kepemilikan, tanggal]);
+                let query = await sql.query('INSERT INTO keluarga(nomor_kk,status_tinggal,alamat, status_kepemilikan, tanggal_menempati, id_rt) VALUES(?,?,?,?,?,?)',[nomor_kk, status_tinggal, alamat, status_kepemilikan, tanggal, req.session.id_rt]);
                 return {redirect: '/tambah-anggota/'+query.insertId};
             } catch (error) {
                 return error;
@@ -308,8 +318,20 @@ User.prototype.ubahAnggotaKeluarga = async (req) => {
 }
 
 
-User.prototype.semuaKeluarga = function() {
-    return sql.query('SELECT keluarga.*, GROUP_CONCAT(nama_lengkap ORDER BY user.status_keluarga DESC) AS nama_keluarga, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga GROUP BY keluarga.id_keluarga');
+User.prototype.semuaKeluarga = function(id_rt) {
+    if (id_rt != undefined) {        
+        return sql.query('SELECT keluarga.*, GROUP_CONCAT(nama_lengkap ORDER BY user.status_keluarga DESC) AS nama_keluarga, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga WHERE keluarga.id_rt = ? GROUP BY keluarga.id_keluarga',[id_rt]);
+    } else {
+        return sql.query('SELECT keluarga.*, GROUP_CONCAT(nama_lengkap ORDER BY user.status_keluarga DESC) AS nama_keluarga, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga GROUP BY keluarga.id_keluarga');
+    }
+}
+
+User.prototype.cariKeluarga = function(key, id_rt) {
+    if (id_rt != undefined) {        
+        return sql.query("SELECT keluarga.*, GROUP_CONCAT(nama_lengkap ORDER BY user.status_keluarga DESC) AS nama_keluarga, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga WHERE keluarga.id_rt = ? GROUP BY keluarga.id_keluarga HAVING nama_keluarga LIKE ? OR nomor_kk LIKE ?",[id_rt,'%'+key+'%','%'+key+'%']);
+    } else {
+        return sql.query("SELECT keluarga.*, GROUP_CONCAT(nama_lengkap ORDER BY user.status_keluarga DESC) AS nama_keluarga, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga GROUP BY keluarga.id_keluarga HAVING nama_keluarga LIKE ? OR nomor_kk LIKE ?",['%'+key+'%','%'+key+'%']);
+    }
 }
 
 User.prototype.detailKeluarga = function(id_keluarga) {

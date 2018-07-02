@@ -1,0 +1,100 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-xl-6 col-lg-7 col-md-8">
+                <form action="" method="post" autocomplete="off">
+                    <div class="input-group">
+                        <input type="text" class="form-control shadow-none mr-1<%=(locals.field_error.nama_layanan)?' is-invalid':null%>" placeholder="Nama Layanan" value="<%=locals.input.nama_layanan?input.nama_layanan.trim():null%>" name="nama_layanan" maxlength="50">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary rounded ml-1">
+                                <i class="mif-paper-plane"></i>
+                                <span class="d-none d-sm-inline-block">Simpan</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <% if (locals.field_error.nama_layanan) { %>
+                    <small class="text-danger"><%=field_error.nama_layanan.msg%></small>
+                <% } %>
+            </div>
+        </div>
+
+        <% if (locals.simpan) { %>
+        <div class="alert alert-success my-3">
+            <i class="mif-checkmark"></i>
+            <%=simpan%>
+        </div>
+        <% } %>
+
+        <% if (locals.hapus) { %>
+        <div class="alert alert-danger my-3">
+            <i class="mif-checkmark"></i>
+            <%=hapus%>
+        </div>
+        <% } %>
+
+        <div class="my-3">
+        <% if (locals.list) { %>
+            <% if (list.length) { %>
+            <div class="row">
+                <div class="col-1 font-weight-bold d-none d-sm-inline">#</div>
+                <div class="col-sm-11 col-12 font-weight-bold">Nama Layanan</div>
+            </div>
+            <% var no = 1; %>
+            <% for (var index in list) { %>
+            <div class="ta-list-table">
+                <div class="row">
+                    <div class="col-1 py-2 d-none d-sm-inline-block"><%=no%></div>
+                    <div class="col-sm-11 col-12 py-2">
+                        <span class="float-right d-none d-sm-inline">
+                            <a class="btn btn-sm btn-outline-danger float-right shadow-none d-none-xs icon-action px-1 ml-1"  data-toggle="modal" href="#remove_confirm" data-link="/jenis-layanan/hapus/<%=list[index].id_layanan%>"><i class="mif-bin"></i></a>
+                            <a class="btn btn-sm btn-outline-primary float-right shadow-none d-none-xs icon-action px-1" href="/jenis-layanan/edit/<%=list[index].id_layanan%>"><i class="mif-pencil"></i></a>
+                        </span>
+                        
+                        <div class="dropdown float-right d-inline-block d-sm-none">
+                            <a class="shadow-none dropdown-toggle text-dark caret-off" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="mif-more-vert mif-lg"></i>
+                            </a>
+                            <div class="dropdown-menu ta-dropdown-menu dropdown-menu-right">
+                                <a href="/jenis-layanan/edit/<%=list[index].id_layanan%>" class="dropdown-item small"><i class="mif-pencil"></i> Edit</a>
+                                <a class="dropdown-item small" data-toggle="modal" href="#remove_confirm" data-link="/jenis-layanan/hapus/<%=list[index].id_layanan%>"><i class="mif-bin"></i> Hapus</a>
+                            </div>
+                        </div>
+                        <%=list[index].nama_layanan%>
+                    </div>
+                </div>
+            </div>
+            <% no++ %>
+            <% } %>
+            <% } else { %>
+                <div class="alert alert-info">
+                    Belum ada Layanan Silakan tambahkan layanan!
+                </div>
+            <% } %>
+            <% } else { %>
+                <div class="alert alert-info">
+                    Belum ada Layanan Silakan tambahkan layanan!
+                </div>
+            <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="remove_confirm">
+        <div class="modal-dialog show modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Apakah ingin menghapus data ini?
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-link btn-sm shadow-none" data-dismiss="modal">Batal</a>
+                    <a href="" class="btn remove-link btn-link btn-sm shadow-none">Hapus</a>
+                </div>
+            </div>
+        </div>
+    </div>        
+<% include ../layout/foot %>

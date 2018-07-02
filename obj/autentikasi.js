@@ -7,7 +7,7 @@ Autentikasi.prototype.login = async (username,password) => {
         let cekpassword = await bcrypt.compare(password,get.password);
 
         if (cekpassword) {
-            return {err: false, id_user: get.id_user};
+            return {err: false, id_user: get.id_user, id_rt: get.id_rt};
         } else {
             return {err: true, msg: 'Password salah silakan ulangi!'};
         }

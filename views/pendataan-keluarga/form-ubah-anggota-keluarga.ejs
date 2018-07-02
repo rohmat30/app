@@ -1,0 +1,162 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/pendataan-keluarga/anggota-keluarga/<%=param.id%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <%if(locals.success){%>
+            <div class="alert alert-success">
+                <%=locals.success.msg%>
+            </div>
+        <%}%>
+        <form action="" method="post" autocomplete="off">
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Nomor Induk Kependudukan</label>
+                    <input type="text" class="shadow-none form-control<%=locals.field_error.nik?' is-invalid':null%>" maxlength="16" placeholder="Nomor Induk Kependudukan" name="nik" value="<%=locals.input.nik%>"/>
+                    <% if (locals.field_error.nik) { %>
+                        <small class="text-danger"><%=locals.field_error.nik.msg%></small>
+                    <% } %>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Status Keluarga</label>
+                    <select name="status_keluarga" class="form-control shadow-none<%=locals.field_error.status_keluarga?' is-invalid':null%> text-capitalize">
+                        <option value="" selected disabled>- Pilih -</option>
+                        <% var status_keluarga = ['kepala_keluarga','istri','suami','anak','menantu','cucu','orangtua','mertua','famili_lain','pembantu','lainnya'] %>
+                        <% for (var index = 0; index < status_keluarga.length; index++) { %>
+                            <option value="<%=status_keluarga[index]%>"<%=input.status_keluarga == status_keluarga[index]?' selected':''%> class="text-capitalize">
+                            <%=status_keluarga[index].split('_').join(' ')%>
+                            </option>
+                        <% } %>
+                    </select>
+                    <% if (locals.field_error.status_keluarga) { %>
+                        <small class="text-danger"><%=locals.field_error.status_keluarga.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label class="small m-0">Nama Lengkap</label>
+                    <input type="text" class="shadow-none form-control<%=locals.field_error.nama_lengkap?' is-invalid':null%>" maxlength="30" placeholder="Nama Lengkap" name="nama_lengkap" value="<%=input.nama_lengkap%>" id="nama"/>
+                    <% if (locals.field_error.nama_lengkap) { %>
+                        <small class="text-danger"><%=locals.field_error.nama_lengkap.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Jenis Kelamin</label>
+                    <select name="jenis_kelamin" class="shadow-none form-control<%=locals.field_error.jenis_kelamin?' is-invalid':null%>">
+                            <option value="" selected disabled>- Pilih -</option>
+                        <option value="L"<%=input.jenis_kelamin == 'L'?' selected':null%>>Laki-Laki</option>
+                        <option value="P"<%=input.jenis_kelamin == 'P'?' selected':null%>>Perempuan</option>
+                    </select>    
+                    <% if (locals.field_error.jenis_kelamin) { %>
+                        <small class="text-danger"><%=locals.field_error.jenis_kelamin.msg%></small>
+                    <% } %>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Agama</label>
+                    <select name="agama" class="form-control shadow-none<%=locals.field_error.agama?' is-invalid':null%>">
+                        <option value="" selected disabled>- Pilih -</option>
+                        <option value="1"<%=input.agama == '1'?' selected':null%>>Islam</option>
+                        <option value="2"<%=input.agama == '2'?' selected':null%>>Kristen</option>
+                        <option value="3"<%=input.agama == '3'?' selected':null%>>Katolik</option>
+                        <option value="4"<%=input.agama == '4'?' selected':null%>>Hindu</option>
+                        <option value="5"<%=input.agama == '5'?' selected':null%>>Buddha</option>
+                        <option value="6"<%=input.agama == '6'?' selected':null%>>Kong Hu Cu</option>
+                    </select>
+                    <% if (locals.field_error.agama) { %>
+                        <small class="text-danger"><%=locals.field_error.agama.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Tempat Lahir</label>
+                    <input type="text" class="shadow-none form-control<%=locals.field_error.tempat_lahir?' is-invalid':null%>" maxlength="20" placeholder="Tempat Lahir (Kota Kelahiran)" name="tempat_lahir" value="<%=input.tempat_lahir%>"/>
+                    <% if (locals.field_error.tempat_lahir) { %>
+                        <small class="text-danger"><%=locals.field_error.tempat_lahir.msg%></small>
+                    <% } %>
+                </div>
+                <div class="col-sm-6 mb-3">
+                        <label class="small m-0">Tanggal Lahir</label>
+                        <div class="form-row">
+                        <div class="col-3">
+                            <input type="number" min="1" max="31" class="shadow-none form-control<%=locals.field_error.tanggal_lahir?' is-invalid':null%>" placeholder="Tanggal" name="tanggal_lahir" value="<%=locals.input.tanggal_lahir%>" id="tanggal"/>
+                        </div>
+                            <div class="col-5">
+                                <% var nama_bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']; %>
+                                <select name="bulan_lahir" class="form-control shadow-none<%=locals.field_error.bulan_lahir?' is-invalid':null%>" id="bulan">                            
+                                    <option value="" selected disabled>- Pilih -</option>
+                                <% for (var i = 0; i < 12 ; i++) { %>
+                                    <% if (input.bulan_lahir == (i+1)) { %>
+                                    <option value="<%=(i+1)%>" selected><%=nama_bulan[i]%></option>
+                                    <% } else { %>
+                                    <option value="<%=(i+1)%>"><%=nama_bulan[i]%></option>
+                                    <% } %>
+                                <% } %>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="shadow-none form-control<%=locals.field_error.tahun_lahir?' is-invalid':null%>" max="<%=new Date().getFullYear()%>" min="<%=(new Date().getFullYear()-90)%>" placeholder="Tahun" name="tahun_lahir" value="<%=locals.input.tahun_lahir%>" id="tahun"/>
+                            </div>
+                            <% if (locals.field_error.tanggal_lahir) { %>
+                                <small class="text-danger"><%=locals.field_error.tanggal_lahir.msg%></small>
+                            <% } else if (locals.field_error.bulan_lahir) { %>
+                                <small class="text-danger"><%=locals.field_error.bulan_lahir.msg%></small>
+                            <% } else if (locals.field_error.tahun_lahir) { %>
+                                <small class="text-danger"><%=locals.field_error.tahun_lahir.msg%></small>
+                            <% } %>
+                        </div>
+            </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Pendidikan Terakhir</label>
+                    <% var pendidikan = ['Tidak / Belum Sekolah','Belum Tamat SD / Sederajat','Tamat SD / Sederajat','SLTP / Sederajat', 'SLTA / Sederajat', 'Diploma I / II', 'Akademi / Diploma III / Sarjana Muda','Diploma IV / Strata I', 'Strata II', 'Strata III'] %>
+                    <select name="pendidikan" class="form-control shadow-none<%=locals.field_error.pendidikan?' is-invalid':null%>">
+                        <option value="" selected disabled>- Pilih -</option>
+                    <% for (var i in pendidikan) { %>
+                        <option value="<%=parseInt(i)+1%>"<%=(input.pendidikan == (parseInt(i)+1)? ' selected' : null)%>><%=pendidikan[i]%></option>
+                    <% } %>
+                    </select>
+                    <% if (locals.field_error.pendidikan) { %>
+                        <small class="text-danger"><%=locals.field_error.pendidikan.msg%></small>
+                    <% } %>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="small m-0">Status Perkawinan</label>
+                    <select name="status_perkawinan" class="form-control shadow-none<%=locals.field_error.status_perkawinan?' is-invalid':null%>">
+                        <option value="" selected disabled>- Pilih -</option>
+                        <option value="1"<%=input.status_perkawinan == '1'? ' selected' : null%>>Belum Kawin</option>
+                        <option value="2"<%=input.status_perkawinan == '2'? ' selected' : null%>>Kawin</option>
+                        <option value="3"<%=input.status_perkawinan == '3'? ' selected' : null%>>Cerai Hidup</option>
+                        <option value="4"<%=input.status_perkawinan == '4'? ' selected' : null%>>Cerai Mati</option>
+                    </select>
+                    <% if (locals.field_error.status_perkawinan) { %>
+                        <small class="text-danger"><%=locals.field_error.status_perkawinan.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="form-row mb-3 align-middle">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="mif-paper-plane"></i>
+                        <span>
+                            Simpan
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<% include ../layout/foot %>

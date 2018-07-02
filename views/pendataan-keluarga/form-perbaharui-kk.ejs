@@ -2,32 +2,33 @@
 <div class="mb-3 card">
     <div class="card-header">
         <h4 class="card-title">
-            <% let url_back = (locals.param)?'/pendataan-warga/anggota-keluarga/'+locals.param.id:'/pendataan-warga' %>
-            <a href="<%=url_back%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <a href="/pendataan-keluarga/anggota-keluarga/<%=params.id%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
             <span class="d-inline-block align-middle">
                 <%=title%>
             </span>
         </h4>
     </div>
     <div class="card-body">
-        <form action="" method="post">
+        <form action="" method="post" autocomplete="off">
+            <% if (locals.success) { %>
+                <div class="alert alert-success"><button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button>Data warga berhasil ditambahkan</div>
+            <% } %>
             <div class="form-row">
-                <div class="col-form-label col-xl-2 col-md-3 text-md-right">
-                    <label>Nomor Kartu Keluarga</label>
-                </div>
-                <div class="col-xl-4 mb-3 col-md-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="small text-secondary m-0">Nomor Kartu Keluarga</label>
                     <input type="text" class="shadow-none form-control<%=locals.field_error.nomor_kk?' is-invalid':null%>" maxlength="16" placeholder="Nomor Kartu Keluarga" name="nomor_kk" value="<%=locals.input.nomor_kk%>" required minlength="16"/>
                     <% if (locals.field_error.nomor_kk) { %>
                         <small class="text-danger"><%=locals.field_error.nomor_kk.msg%></small>
                     <% } %>
                 </div>
-                <div class="col-form-label col-xl-2 col-md-3 text-md-right">
-                    <label>Status Tinggal</label>
-                </div>
-                <div class="col-xl-4 mb-3 col-md-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="small text-secondary m-0">Status Tinggal</label>
                     <select name="status_tinggal" class="form-control shadow-none<%=locals.field_error.status_tinggal?' is-invalid':null%>">
-                        <option value="tetap">Tetap</option>
-                        <option value="sementara"<%=locals.input.status_tinggal == 'sementara' ? ' selected' : null%> <%=(locals.disable_input?locals.disable_input.status_tinggal?'disabled':null:null)%>>Sementara</option>
+                        <option value="" disabled selected>- Pilih -</option>
+                        <option value="tetap"<%=locals.input.status_tinggal == 'tetap' ? ' selected' : null%> >Tetap</option>
+                        <% if (input.status_tinggal == 'sementara') { %>
+                        <option value="sementara"<%=locals.input.status_tinggal == 'sementara' ? ' selected' : null%>>Sementara</option>
+                        <% } %>
                     </select>
                     <% if (locals.field_error.status_tinggal) { %>
                         <small class="text-danger"><%=locals.field_error.status_tinggal.msg%></small>
@@ -36,39 +37,37 @@
             </div>
             
             <div class="form-row">
-                <div class="col-form-label col-xl-2 col-md-3 text-md-right">
-                    <label>Status Kepemilikan</label>
-                </div>
-                <div class="col-xl-4 mb-3 col-md-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="small text-secondary m-0">Status Kepemilikan</label>
                     <select name="status_kepemilikan" class="form-control shadow-none<%=locals.field_error.status_kepemilikan?' is-invalid':null%>">
-                        <option value="pemilik">Pemilik</option>
+                        <option value="" disabled selected>- Pilih -</option>
+                        <option value="pemilik"<%=locals.input.status_kepemilikan == 'pemilik' ? 'selected' : null%>>Pemilik</option>
                         <option value="kontrak"<%=locals.input.status_kepemilikan == 'kontrak' ? 'selected' : null%>>Kontrak</option>
-                        <option value="keluarga"<%=locals.input.status_kepemilikan == 'keluarga' ? 'selected' : null%>>Keluarga</option>
+                        <option value="keluarga"<%=locals.input.status_kepemilikan == 'numpang' ? 'selected' : null%>>Numpang</option>
                     </select>
                     <% if (locals.field_error.status_kepemilikan) { %>
                         <small class="text-danger"><%=locals.field_error.status_kepemilikan.msg%></small>
                     <% } %>
                 </div>
-                <div class="col-form-label col-xl-2 col-md-3 text-md-right">
-                    <label>Tanggal Menempati</label>
-                </div>
-                <div class="col-xl-4 mb-3 col-md-3">
+                <div class="col-sm-6 mb-3">
                     <% var bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','Novembar','Desember'] %>
                     <% var bulan_sekarang = new Date().getMonth() %>
+                    <label class="small text-secondary m-0">Tanggal Menempati</label>
                     <div class="form-row">
                         <div class="col-6">
-                            <select name="tanggal_menempati" class="form-control shadow-none<%=(locals.field_error.tanggal_menempati)?' is-invalid':null%>">
+                            <select name="bulan_menempati" class="form-control shadow-none<%=(locals.field_error.bulan_menempati)?' is-invalid':null%>">
+                            <option value="" disabled>- Pilih -</option>
                             <% for (var i = 0; i < 12; i++) { %>
-                                <% if (Array.isArray(input.tanggal_menempati)) { %>
-                                    <% if (input.tanggal_menempati[0] == (i+1)) { %>
+                                <% if (input.bulan_menempati) { %>
+                                    <% if (input.bulan_menempati == (i+1)) { %>
                                         <option value="<%=(i+1)%>" selected><%=bulan[i]%></option>
                                     <% } else { %>
                                         <option value="<%=(i+1)%>"><%=bulan[i]%></option>
                                     <% } %>
                                 <% } else { %>
-                                    <% if (bulan_sekarang == i) {%>
+                                    <% if (bulan_sekarang == i) { %>
                                         <option value="<%=(i+1)%>" selected><%=bulan[i]%></option>
-                                    <% } else {%>
+                                    <% } else { %>
                                         <option value="<%=(i+1)%>"><%=bulan[i]%></option>
                                     <% } %>
                                 <% } %>
@@ -76,27 +75,26 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <input type="number" name="tanggal_menempati" class="form-control shadow-none<%=(locals.field_error.tanggal_menempati)?' is-invalid':null%>" placeholder="Tahun" min="<%=parseInt(new Date().getFullYear()-90)%>" max="<%=parseInt(new Date().getFullYear())%>" value="<%=Array.isArray(input.tanggal_menempati)?input.tanggal_menempati[1]:parseInt(new Date().getFullYear())%>">
+                            <input type="number" name="tahun_menempati" class="form-control shadow-none<%=(locals.field_error.tahun_menempati)?' is-invalid':null%>" placeholder="Tahun" min="<%=parseInt(new Date().getFullYear()-90)%>" max="<%=parseInt(new Date().getFullYear())%>" value="<%=locals.input.tahun_menempati?input.tahun_menempati:parseInt(new Date().getFullYear())%>">
                         </div>
                     </div>
-                    <% if (locals.field_error.tanggal_menempati) { %>
-                        <small class="text-danger"><%=locals.field_error.tanggal_menempati.msg%></small>
+                    <% if (locals.field_error.tahun_menempati || locals.field_error.bulan_menempati) { %>
+                        <small class="text-danger"><%=locals.field_error.bulan_menempati?locals.field_error.bulan_menempati.msg:(locals.field_error.tahun_menempati?locals.field_error.tahun_menempati.msg:null)%></small>
                     <% } %>
                 </div>
             </div>
             <div class="form-row mb-3">
-                <div class="col-form-label col-xl-2 col-md-3 text-md-right">
-                    <label>Alamat Lengkap</label>
-                </div>
-                <div class="col-xl-10 col-md-9">
+                <div class="col">
+                    <label class="small text-secondary m-0">Alamat Lengkap</label>
                     <textarea class="shadow-none form-control<%=locals.field_error.alamat?' is-invalid':null%>" maxlength="75" placeholder="Alamat Lengkap" name="alamat" required minlength="2"><%=locals.input.alamat%></textarea>
                     <% if (locals.field_error.alamat) { %>
                         <small class="text-danger"><%=locals.field_error.alamat.msg%></small>
                     <% } %>
                 </div>
             </div>
+            
             <div class="form-row mb-3 align-middle">
-                <div class="offset-xl-2 offset-lg-3 offset-md-4 col-lg-9 col-md-8 col-xl-10">
+                <div class="col-12">
                     <button type="submit" class="btn btn-primary">
                         <i class="mif-paper-plane"></i>
                         <span>

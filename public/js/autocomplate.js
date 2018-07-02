@@ -1,5 +1,5 @@
 (function($){
-    $('input[name="nomor_nik"]').keyup(function(){
+    $('input[name="nik"]').keyup(function(){
         var text = $(this).val();
         if (!isNaN(text) && text.length >= 16) {
             let ddd = text.substr(6,2);
@@ -29,5 +29,41 @@
                 $('#tahun').val((ayy<0?'19':(ayy.toString().length==1)?'20':'200')+cyy);
             }
         }
+    });
+    $('.form-control').focusin(function(){
+        if ($(this).hasClass('is-invalid')) {
+            $(this).parent().parent().prev('label').addClass('text-danger').removeClass('text-secondary');
+            $(this).prev('label').addClass('text-danger').removeClass('text-secondary');
+        } else {
+            $(this).parent().parent().prev('label').addClass('text-primary').removeClass('text-secondary');
+            $(this).prev('label').addClass('text-primary').removeClass('text-secondary');
+        }
+    });
+    
+    $('.form-control').focusout(function(){
+        if ($(this).hasClass('is-invalid')) {
+            $(this).parent().parent().prev('label').removeClass('text-danger').addClass('text-secondary');
+            $(this).prev('label').removeClass('text-danger').addClass('text-secondary');
+        } else {
+            $(this).parent().parent().prev('label').removeClass('text-primary').addClass('text-secondary');
+            $(this).prev('label').removeClass('text-primary').addClass('text-secondary');
+        }
+    });
+
+    $('a[data-toggle="show-detail"]').click(function(e){
+        e.preventDefault();
+        let el = $(this).attr('href');
+        if ($(el).is(':visible')) {
+            $(el).slideUp(150);
+            $(this).find('i').addClass('mif-expand-more').removeClass('mif-expand-less');
+        } else {
+            $(el).slideDown(150);
+            $(this).find('i').addClass('mif-expand-less').removeClass('mif-expand-more');
+        }
+        // $(el).slideToggle(150);
+    });
+
+    $('[data-toggle="modal"]').click(function(){
+        $($(this).attr('href')+' .remove-link').attr('href',$(this).attr('data-link'));
     });
 })(jQuery)

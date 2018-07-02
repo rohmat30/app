@@ -17,20 +17,20 @@
         Masuk
       </h5>
     </div>
+    <form action="/" method="post" autocomplete="off">
     <div class="card-body pt-0">
       <% if(locals.err) { %>
       <small class="text-danger">
         <%=err%>
       </small>
       <% } %>
-        <form action="/" method="post" autocomplete="off">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <i class="mif-user"></i>
               </span>
             </div>
-            <input type="text" name="username" class="form-control" placeholder="Username" autofocus>
+            <input type="text" name="username" class="form-control" placeholder="Username" autofocus value="banana">
           </div>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -38,7 +38,7 @@
                 <i class="mif-lock"></i>
               </span>
             </div>
-            <input type="password" name="password" class="form-control" placeholder="Password">
+            <input type="password" name="password" class="form-control" placeholder="Password" value="banana2"/>
           </div>
         </div>
         <div class="login-footer card-footer pt-0 pb-4">

@@ -1,11 +1,11 @@
-var createError = require('http-errors');
-var express = require('express');
-var session = require('express-session');
+var createError      = require('http-errors');
+var express          = require('express');
+var session          = require('express-session');
 var expressValidator = require('express-validator');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mysql = require('promise-mysql');
+var path             = require('path');
+var cookieParser     = require('cookie-parser');
+var logger           = require('morgan');
+var mysql            = require('promise-mysql');
 
 global.bcrypt = require('bcrypt');
 
@@ -16,9 +16,11 @@ global.sql = mysql.createPool({
   database: 'ewarga'
 });
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var pendataanWargaRouter = require('./routes/pendataan-warga');
+var indexRouter             = require('./routes/index');
+var usersRouter             = require('./routes/users');
+var pendataanKeluargaRouter = require('./routes/pendataan-keluarga');
+var jenisLayananRouter      = require('./routes/jenis-layanan');
+var bukuTamuRouter          = require('./routes/buku-tamu');
 
 var app = express();
 // view engine setup
@@ -44,9 +46,9 @@ const menu = [[
   {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
 ],[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
-  {url: [{url:'/pendataan-warga',text: 'Pendataan Warga',icon:'mif-user-plus'},{url: '/mutasi-warga',text: 'Mutasi Warga',icon:'mif-user-minus'}],text: 'Kelola Warga',icon: 'mif-users'},
+  {url: [{url:'/pendataan-keluarga',text: 'Data Keluarga',icon:'mif-user-plus'},{url: '/mutasi-warga',text: 'Mutasi Warga',icon:'mif-user-minus'}],text: 'Kelola Warga',icon: 'mif-users'},
   {url: [{url:'/tanggapan-layanan',text: 'Tanggapan',icon:'mif-open-book'},{url: '/jenis-layanan',text: 'Jenis Layanan',icon:'mif-menu'}],text: 'Layanan',icon: 'mif-cabinet'},
-  {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-bell'},
+  {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-volume-low'},
   {url: '/aspirasi-warga',text: 'Aspirasi Warga',icon: 'mif-books'},
   {url: '/iuran-warga',text: 'Iuran Warga',icon: 'mif-credit-card'},
   {url: '/kas-rt',text: 'Kas RT',icon: 'mif-paypal'},
@@ -102,7 +104,6 @@ app.use(function(req, res, next){
         
         data.field_error = {};
 
-        console.log(data.field_error);
         if (errors) {
           var el = [];
           for (const key in errors) {
@@ -119,7 +120,6 @@ app.use(function(req, res, next){
         if (data.autovalue != false) {
           if (data.setvalue) {
             data.input = data.setvalue[0];
-            console.log(data.input);
           } else {
             data.input = req.body;            
           }
@@ -137,7 +137,9 @@ app.use(function(req, res, next){
 
 app.use('/', indexRouter);
 app.use('/home', usersRouter);
-app.use('/pendataan-warga', pendataanWargaRouter);
+app.use('/pendataan-keluarga', pendataanKeluargaRouter);
+app.use('/jenis-layanan', jenisLayananRouter);
+app.use('/buku-tamu', bukuTamuRouter);
 
 
 // catch 404 and forward to error handler
