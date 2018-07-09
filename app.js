@@ -21,6 +21,7 @@ var usersRouter             = require('./routes/users');
 var pendataanKeluargaRouter = require('./routes/pendataan-keluarga');
 var jenisLayananRouter      = require('./routes/jenis-layanan');
 var bukuTamuRouter          = require('./routes/buku-tamu');
+var inventarisRouter        = require('./routes/inventaris');
 
 var app = express();
 // view engine setup
@@ -43,6 +44,7 @@ const menu = [[
   {url: '/kelola-rt',text: 'Kelola RT',icon: 'mif-user-secret'},
   {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-books'},
   {url: '/pelayanan',text: 'Pelayanan',icon: 'mif-layers'},
+  {url: '/inventaris',text: 'Inventaris',icon: 'mif-shopping-basket2'},
   {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
 ],[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
@@ -140,6 +142,7 @@ app.use('/home', usersRouter);
 app.use('/pendataan-keluarga', pendataanKeluargaRouter);
 app.use('/jenis-layanan', jenisLayananRouter);
 app.use('/buku-tamu', bukuTamuRouter);
+app.use('/inventaris', inventarisRouter);
 
 
 // catch 404 and forward to error handler

@@ -1,0 +1,72 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/inventaris" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <% if(locals.simpan) { %>
+        <div class="alert alert-success"><%=simpan%></div>
+        <% } %>
+        <form action="" method="post" autocomplete="off">
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Nama Barang</label>
+                <input type="text" class="shadow-none form-control<%=locals.field_error.nama_barang?' is-invalid':null%>" maxlength="30" placeholder="Nama Barang" name="nama_barang" value="<%=input.nama_barang%>"/>
+                <% if (locals.field_error.nama_barang) { %>
+                    <small class="text-danger"><%=locals.field_error.nama_barang.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Jumlah</label>
+                <input type="number" min="0" max="50000" class="shadow-none form-control<%=locals.field_error.jumlah?' is-invalid':null%>" maxlength="30" placeholder="Jumlah" name="jumlah" value="<%=input.jumlah%>"/>
+                <% if (locals.field_error.jumlah) { %>
+                    <small class="text-danger"><%=locals.field_error.jumlah.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Kondisi</label>
+                <select class="shadow-none form-control<%=locals.field_error.kondisi?' is-invalid':null%>" name="kondisi">
+                    <option value="" selected disabled>- Pilih -</option>
+                    <option value="baik" <%=locals.input.kondisi == 'baik'? 'selected' : null %>>Baik</option>
+                    <option value="rusak" <%=locals.input.kondisi == 'rusak'? 'selected' : null %>>Rusak</option>
+                </select>
+                <% if (locals.field_error.kondisi) { %>
+                    <small class="text-danger"><%=locals.field_error.kondisi.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Keterangan</label>
+                <textarea name="keterangan" class="shadow-none form-control<%=locals.field_error.nama_lengkap?' is-invalid':null%>" maxlength="75" placeholder="Keterangan"><%=input.keterangan%></textarea>
+                <% if (locals.field_error.keterangan) { %>
+                    <small class="text-danger"><%=locals.field_error.keterangan.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="form-row mb-3 align-middle">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">
+                    <i class="mif-paper-plane"></i>
+                    <span>
+                        Simpan
+                    </span>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<% include ../layout/foot %>
