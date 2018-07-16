@@ -578,3 +578,9 @@ a:hover {
   background: #2196F3;
   color: #FFFFFF;
 }
+
+.ta-text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

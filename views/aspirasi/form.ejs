@@ -1,0 +1,52 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="<%=activePage%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <% if(locals.simpan) { %>
+            <div class="alert alert-success">
+                <%=simpan%>
+            </div>
+        <% } %>
+        <form action="" method="post" autocomplete="off">
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Judul</label>
+                <input type="text" class="shadow-none form-control<%=locals.field_error.judul_aspirasi?' is-invalid':null%>" maxlength="100" placeholder="Judul" name="judul_aspirasi" value="<%=input.judul_aspirasi ? input.judul_aspirasi.trim() : null%>"/>
+                <% if (locals.field_error.judul_aspirasi) { %>
+                    <small class="text-danger"><%=locals.field_error.judul_aspirasi.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Isi</label>
+                <textarea name="isi_aspirasi" maxlength="2000" rows="8" class="shadow-none form-control<%=locals.field_error.isi_aspirasi?' is-invalid':null%>" placeholder="Isi"><%=input.isi_aspirasi ? input.isi_aspirasi.trim() : null %></textarea>
+                <% if (locals.field_error.isi_aspirasi) { %>
+                    <small class="text-danger"><%=locals.field_error.isi_aspirasi.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="form-row mb-3 align-middle">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">
+                    <i class="mif-paper-plane"></i>
+                    <span>
+                        Simpan
+                    </span>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<% include ../layout/foot %>

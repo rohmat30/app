@@ -1,22 +1,22 @@
 var Pendataan_keluarga = function() {};
 
-Pendataan_keluarga.prototype.daftar_keluarga = (id_rt) => {
+Pendataan_keluarga.prototype.daftar_keluarga = async (id_rt) => {
     var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga  WHERE user.aktif = 1';
     if (id_rt != undefined) {
         query += ' AND keluarga.id_rt = '+id_rt;
     }
     query += ' GROUP BY keluarga.id_keluarga';
-    return sql.query(query);
+    return await sql.query(query);
 }
 
 
-Pendataan_keluarga.prototype.cari_keluarga = (key, id_rt) => {
+Pendataan_keluarga.prototype.cari_keluarga = async (key, id_rt) => {
     var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga';
     if (id_rt != undefined) {
         query += ' WHERE keluarga.id_rt = '+id_rt;
     }
     query += ' GROUP BY keluarga.id_keluarga HAVING daftar_nama LIKE "%'+key+'%" OR nomor_kk LIKE "%'+key+'%"';
-    return sql.query(query);
+    return await sql.query(query);
 }
 
 Pendataan_keluarga.prototype.tambah_keluarga = async (req) => {

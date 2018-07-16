@@ -1,0 +1,92 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 col-lg-8 col-xl-9">
+                <div class="btn-fixed mx-md-3 mt-md-4">
+                        <br><br><br>
+                    <a href="/kas/keluar" class="btn btn-danger mr-md-1 mb-md-0 mb-3">
+                        <i class="mif-user-check"></i>
+                        <span class="d-none d-md-inline-block">Keluar</span>
+                    </a>
+                    <a href="/kas/masuk" class="btn btn-primary float-left mx-md-1 mb-0">
+                        <i class="mif-user-plus"></i>
+                        <span class="d-none d-md-inline-block">Masuk</span>
+                    </a>
+                </div>            
+            </div>
+            <div class="col-10 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                <div class="table-responsive">
+                    <strong>Saldo Kas</strong>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td width="80">Masuk</td>
+                                <td class="text-right">
+                                    <%=total_masuk%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Keluar</td>
+                                <td class="text-right">
+                                    <%=total_keluar%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td class="text-right">
+                                    <%=total%>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>        
+        <% if (locals.simpan) { %>
+            <div class="alert alert-success">
+                <i class="mif-checkmark"></i> <%=simpan%>
+            </div>
+        <% } %>
+        <% if (transaksi.length) { %>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" width="100">#</th>
+                        <th scope="col" width="100">Tanggal</th>
+                        <th scope="col">Masuk</th>
+                        <th scope="col">Keluar</th>
+                        <th scope="col">Jumlah</th>
+                        <th scope="col">Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% var rev_key = transaksi.length,jumlah = 0; %>
+                <% for (var key in transaksi) { %>
+                    <% rev_key = rev_key - 1 %>
+                    <tr>
+                        <td scope="col" class="text-center"><%=transaksi[rev_key].no_transaksi%></td>
+                        <td scope="col"><%=transaksi[rev_key].tanggal%></td>
+                        <td scope="col" class="text-right"><%=transaksi[rev_key].kas_masuk%></td>
+                        <td scope="col" class="text-right"><%=transaksi[rev_key].kas_keluar%></td>
+                        <td scope="col" class="text-right"><%=transaksi[rev_key].saldo%></td>
+                        <td scope="col"><%=transaksi[rev_key].keterangan%></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+        <div class="alert alert-danger">
+            Belum ada data.
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<% include ../layout/foot %>

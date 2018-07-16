@@ -1,0 +1,52 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="<%=activePage%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <% if(locals.simpan) { %>
+            <div class="alert alert-success">
+                <%=simpan%>
+            </div>
+        <% } %>
+        <form action="" method="post" autocomplete="off">
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Jumlah</label>
+                <input type="number" min="100" max="9999999999" class="shadow-none form-control<%=locals.field_error.jumlah?' is-invalid':null%>" placeholder="Jumlah" name="jumlah" value="<%=input.jumlah ? input.jumlah.trim() : null%>"/>
+                <% if (locals.field_error.jumlah) { %>
+                    <small class="text-danger"><%=locals.field_error.jumlah.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Keterangan</label>
+                <textarea name="keterangan" maxlength="75" class="shadow-none form-control<%=locals.field_error.keterangan?' is-invalid':null%>" placeholder="Isi"><%=input.keterangan ? input.keterangan.trim() : null %></textarea>
+                <% if (locals.field_error.keterangan) { %>
+                    <small class="text-danger"><%=locals.field_error.keterangan.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="form-row mb-3 align-middle">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">
+                    <i class="mif-paper-plane"></i>
+                    <span>
+                        Simpan
+                    </span>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<% include ../layout/foot %>

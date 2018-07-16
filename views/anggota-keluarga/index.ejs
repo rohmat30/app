@@ -1,0 +1,139 @@
+<% include ../layout/head %>
+<% var agama = ['Islam','Kristen','Katholik','Hindu','Buddha','Kong Hu Cu'] %>
+<% var pendidikan = ['Tidak / Belum Sekolah','Belum Tamat SD / Sederajat','Tamat SD / Sederajat','SLTP / Sederajat', 'SLTA / Sederajat', 'Diploma I / II', 'Akademi / Diploma III / Sarjana Muda','Diploma IV / Strata I', 'Strata II', 'Strata III'] %>
+<% var status_perkawinan = ['Belum Kawin','Kawin','Cerai Hidup','Cerai Mati'] %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+                <%=title%>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 mt-0">
+                <div class="media mb-md-3">
+                    <div class="media-body mb-0 mt-sm-1">
+                        <h5 class="ta-list-title">
+                            Profile <%=user.nama_lengkap%>
+                        </h5>
+                        <table>
+                            <tr>
+                                <td>Nama Lengkap</td>
+                                <td>:</td>
+                                <td><%=user.nama_lengkap%></td>
+                            </tr>
+                            <tr>
+                                <td>NIK</td>
+                                <td>:</td>
+                                <td><%=user.nik%></td>
+                            </tr>
+                            <tr>
+                                <td>Tempat Lahir</td>
+                                <td>:</td>
+                                <td><%=user.tempat_lahir%></td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Lahir</td>
+                                <td>:</td>
+                                <td><%=user.tanggal_lahir%></td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Kelamin</td>
+                                <td>:</td>
+                                <td><%=user.jenis_kelamin == 'L'? 'Laki-laki' : 'Perempuan'%></td>
+                            </tr>
+                            <tr>
+                                <td>Agama</td>
+                                <td>:</td>
+                                <td><%=agama[user.agama-1]%></td>
+                            </tr>
+                            <tr>
+                                <td>Pendidikan Terakhir</td>
+                                <td>:</td>
+                                <td><%=pendidikan[user.pendidikan-1]%></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <% if (locals.simpan) { %>
+                    <div class="alert alert-success">
+                        <%=simpan%>
+                    </div>
+                <% } %>
+                <div class="clearfix"></div>
+                
+            </div>
+        </div>
+        <div class="row font-weight-bold m-0 py-2 py-md-0 d-none d-md-flex">
+            <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-4 col-lg-3 order-2 order-md-1">NIK</div>
+            <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-5 col-lg-3 order-1 order-md-2">Nama Lengkap</div>
+            <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3">Status Keluarga</div>
+            <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">Tanggal Lahir</div>
+            <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 order-5 d-none d-xl-flex">Jenis Kelamin</div>
+        </div>
+        <% for(var i in data) { %>
+        <% if (data[i].id_user != user.id_user) { %>
+        <div class="ta-list-table">
+            <div class="row m-0 py-2 py-md-0">
+            <div class="py-0 py-md-2 pl-0 pr-2 col-md-4 col-lg-3 order-2 order-md-1"><span class="d-md-none">NIK</span> <%=data[i].nik%></div>
+            <div class="py-0 py-md-2 pl-0 pr-2 col-md-5 col-lg-3 order-1 order-md-2  font-weight-xs-bold">
+                <a href="#show<%=parseInt(data[i].id_user)%>" data-toggle="show-detail" class="btn btn-sm btn-outline-default float-right shadow-none d-none-xs icon-action"><i class="mif-expand-more mif-lg"></i></a>
+
+                <%=data[i].nama_lengkap%>
+            </div>
+            <div class="py-0 py-md-2 pl-0 pr-2 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3 text-capitalize"><%=data[i].status_keluarga.replace(/\_/,' ')%></div>
+            <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">
+                <%=data[i].tanggal_lahir%>
+            </div>
+            <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 order-5 d-none d-xl-flex"><%=data[i].jenis_kelamin=='L'?'Laki-laki':'Perempuan'%></div>
+            </div>
+            <div class="mx-2 mt-2 alert alert-info" style="display: none;" id="show<%=parseInt(data[i].id_user)%>">
+                <table>
+                    <tr>
+                        <td>Jenis Kelamin</td>
+                        <td>:</td>
+                        <td>
+                            <%=data[i].jenis_kelamin=='L'?'Laki-Laki':'Perempuan'%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tempat/Tanggal Lahir</td>
+                        <td>:</td>
+                        <td>
+                            <%=data[i].tempat_lahir%> / 
+                            <%=data[i].tanggal_lahir.split('/').join('-')%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agama</td>
+                        <td>:</td>
+                        <td>
+                            <%=agama[parseInt(data[i].agama)-1]%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pendidikan Terakhir</td>
+                        <td>:</td>
+                        <td>
+                            <%=pendidikan[parseInt(data[i].pendidikan)-1]%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status Perkawinan</td>
+                        <td>:</td>
+                        <td>
+                            <%=status_perkawinan[parseInt(data[i].status_perkawinan)-1]%>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="col-12 text-center alert alert-danger mt-3 mt-md-0">
+            Tidak atau belum ada anggata keluarga!
+        </div>
+        <% } %>
+        <% } %>
+    </div>
+</div>
+<% include ../layout/foot %>

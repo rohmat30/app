@@ -48,7 +48,7 @@
         <div class="form-row mb-3">
             <div class="col">
                 <label class="small m-0">Keterangan</label>
-                <textarea name="keterangan" class="shadow-none form-control<%=locals.field_error.nama_lengkap?' is-invalid':null%>" maxlength="75" placeholder="Keterangan"><%=input.keterangan%></textarea>
+                <textarea name="keterangan" class="shadow-none form-control<%=locals.field_error.keterangan?' is-invalid':null%>" maxlength="75" placeholder="Keterangan"><%=input.keterangan%></textarea>
                 <% if (locals.field_error.keterangan) { %>
                     <small class="text-danger"><%=locals.field_error.keterangan.msg%></small>
                 <% } %>

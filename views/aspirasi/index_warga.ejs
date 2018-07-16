@@ -1,0 +1,49 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="btn-fixed ml-md-4 mt-md-3">
+                    <a href="/penyampaian-aspirasi/buat" class="btn btn-primary">
+                        <i class="mif-file-text small d-none d-md-inline"></i>
+                        <i class="mif-file-text d-md-none"></i>
+                        <span class="d-none d-md-inline">
+                            Buat
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% for (var key in list) { %>
+            <div class="ta-list-table">
+                <div class="row m-0 py-2 py-md-0">
+                    <div class="py-0 py-md-2 px-0 col-12">
+                        <div class="dropdown float-right d-inline-block d-md-none">
+                            <a class="shadow-none dropdown-toggle text-dark caret-off" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="mif-more-vert mif-lg"></i>
+                            </a>
+                            <div class="dropdown-menu ta-dropdown-menu dropdown-menu-right">
+                                <a href="/penyampaian-aspirasi/edit/<%=list[key].id_aspirasi%>" class="dropdown-item small"><i class="mif-pencil"></i> Edit</a>
+                            </div>
+                        </div>
+                        
+                        <span class="d-none d-md-inline float-right mr-2">
+                            <a class="btn btn-sm btn-outline-primary shadow-none d-none-xs icon-action px-1" href="/penyampaian-aspirasi/edit/<%=list[key].id_aspirasi%>"><i class="mif-pencil"></i></a>
+                        </span>
+
+                        <strong><%=list[key].judul_aspirasi%></strong><br>
+                        <p class="small text-muted pr-3 pr-md-0 ta-text-ellipsis">
+                            <%=list[key].isi_aspirasi.length > 100 ? list[key].isi_aspirasi.substr(0,100) + '...' :  list[key].isi_aspirasi %>
+                        </p>                        
+                    </div>
+                </div>
+            </div>
+        <% } %>    
+    </div>
+</div>
+
+<% include ../layout/foot %>

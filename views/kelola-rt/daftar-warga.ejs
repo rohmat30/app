@@ -1,0 +1,94 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/kelola-rt" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6 col-lg-5 offset-lg-1  col-xl-3 offset-xl-3">
+                <form action="" method="get">
+                    <div class="input-group input-search">
+                        <input type="text" name="q" class="form-control" placeholder="Pencarian..." value="<%=key%>">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn shadow-none">
+                                <i class="mif-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-3">
+        <% if (daftar_user.length) {%>
+        <% for(var i in daftar_user) { %>
+            <div class="col-sm-6 col-xl-4">
+                <a class="shadow-none" style="outline: none" data-toggle="modal" href="#<%=daftar_user[i].level_user == 3 ? 'confirm_set' : 'confirm_no_set' %>" data-link="/kelola-rt/set-rt/<%=id_rt%>/<%=parseInt(daftar_user[i].id_user)%>" data-text="<%=daftar_user[i].nama_lengkap%>">
+                <div class="media ta-list mb-sm-3 py-3 p-sm-2 clearfix">
+                    <div class="ta-thumb m-sm-1 mr-2 mr-sm-2 align-self-top p-2 p-sm-3">
+                        <i class="mif-user thumb mif-2x"></i>
+                    </div>
+                    <div class="media-body mb-0 mt-sm-1">
+                        <h5 class="mb-0 ta-list-title text-dark">
+                            <%=daftar_user[i].nama_lengkap%>
+                        </h5>
+                        <p class="small mb-0 text-secondary">
+                            <%=daftar_user[i].nik%><br>
+                            <span class="badge badge-<%=(daftar_user[i].level_user == 1 ? 'primary' : daftar_user[i].level_user == 2 ? 'success' : 'secondary')%>">
+                                <%=(daftar_user[i].level_user == 1 ? 'RW' : daftar_user[i].level_user == 2 ? 'RT' : 'Warga')%>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                </a>
+            </div>
+        <% } %>
+        </div>
+        <% }else { %>
+            <% if (key) { %>
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        Pencarian warga untuk <strong><%=key%></strong> tidak ditemukan!
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="modal" id="confirm_set">
+    <div class="modal-dialog show modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                Apakah ingin menjadikan <strong class="text-data"></strong> sebagai RT?
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-link btn-sm shadow-none" data-dismiss="modal">Batal</a>
+                <a href="" class="btn remove-link btn-link btn-sm shadow-none">Jadikan</a>
+            </div>
+        </div>
+    </div>
+</div>    
+
+
+<div class="modal" id="confirm_no_set">
+        <div class="modal-dialog show modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <i class="mif-cross small text-danger"></i>
+                    Maaf Tidak bisa menjadikan RT.
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-link btn-sm shadow-none" data-dismiss="modal">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>    
+<% include ../layout/foot %>

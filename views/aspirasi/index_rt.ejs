@@ -1,0 +1,37 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <% for (var key in list) { %>
+            <div class="ta-list-table">
+                <div class="row m-0 py-2 py-md-0">
+                    <div class="py-0 py-md-2 px-0 col-12">
+                        <span class="d-block">
+                            <a href="/aspirasi-warga/detail/<%=list[key].id_aspirasi%>">
+                                <%=list[key].judul_aspirasi%>
+                            </a>
+                        </span>
+                        <span class="d-block text-muted">
+                            <span class="small d-inline-block">
+                                <i class="mif-calendar"></i>
+                                <%=list[key].tanggal%>
+                            </span>
+                            <span class="small d-inline-block">
+                                <i class="mif-user"></i>
+                                <%=list[key].nama_lengkap%>
+                            </span>
+                        </span>
+                        <p class="small text-muted pr-3 mb-0 pr-md-0 ta-text-ellipsis">
+                            <%=list[key].isi_aspirasi.length > 100 ? list[key].isi_aspirasi.substr(0,100) + '...' :  list[key].isi_aspirasi %>
+                        </p>                        
+                    </div>
+                </div>
+            </div>
+        <% } %>    
+    </div>
+</div>
+
+<% include ../layout/foot %>
