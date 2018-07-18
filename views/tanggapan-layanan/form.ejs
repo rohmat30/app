@@ -1,0 +1,61 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/tanggapan-layanan" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" autocomplete="off">
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label class="small m-0">Jenis Layanan</label>
+                    <select name="konfirmasi" class="shadow-none form-control<%=locals.field_error.konfirmasi?' is-invalid':null%>">
+                        <option value="" selected disabled> - Pilih -</option>
+                        <option value="Terima"<%=input.konfirmasi == 'Terima' ? ' selected' : null%>>Terima</option>
+                        <option value="Tolak"<%=input.konfirmasi == 'Tolak' ? 'selected' : null%>>Tolak</option>
+                    </select>
+                    <% if (locals.field_error.konfirmasi) { %>
+                        <small class="text-danger"><%=locals.field_error.konfirmasi.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label class="small m-0">Pesan</label>
+                    <textarea name="pesan" maxlength="255" class="shadow-none form-control<%=locals.field_error.pesan?' is-invalid':null%>" placeholder="Pesan"><%=input.pesan ? input.pesan.trim() : null %></textarea>
+                    <% if (locals.field_error.pesan) { %>
+                        <small class="text-danger"><%=locals.field_error.pesan.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="form-row mb-3 align-middle">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="mif-paper-plane"></i>
+                        <span>
+                            Simpan
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>        
+    </div>
+    <div class="modal" id="remove_confirm">
+        <div class="modal-dialog show modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Apakah ingin menghapus data ini?
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-link btn-sm shadow-none" data-dismiss="modal">Batal</a>
+                    <a href="" class="btn remove-link btn-link btn-sm shadow-none">Hapus</a>
+                </div>
+            </div>
+        </div>
+    </div>        
+<% include ../layout/foot %>

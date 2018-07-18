@@ -1,0 +1,87 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <% if (locals.simpan) { %>
+        <div class="alert alert-success">
+            <i class="mif-checkmark"></i>
+            <%=simpan%>
+        </div>
+        <% } %>
+        <div class="row font-weight-bold m-0 py-2 py-md-0 d-none d-md-flex">
+            <div class="py-0 px-0 col-md-2">NIK</div>
+            <div class="py-0 px-0 col-md-3">Nama</div>
+            <div class="py-0 px-0 col-md-3">Layanan</div>
+            <div class="py-0 px-0 col-md-1">Status</div>
+            <div class="py-0 px-0 col-md-3">Keterangan</div>
+        </div>
+        <% for (var key in list) { %>
+        <div class="ta-list-table">
+            <div class="row m-0 py-2 py-md-0">
+                <div class="py-0 py-md-2 px-0 col-12 col-md-2">
+                    <% if (list[key].status == 'Pending') { %>
+                    <div class="dropdown float-right d-inline-block d-sm-none">
+                        <a class="shadow-none dropdown-toggle text-dark caret-off" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="mif-more-vert mif-lg"></i>
+                        </a>
+                        <div class="dropdown-menu ta-dropdown-menu dropdown-menu-right">
+                            <a href="/tanggapan-layanan/konfirmasi/<%=list[key].id_layanan%>" class="dropdown-item small"><i class="mif-pencil"></i> Edit</a>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    <span class="d-md-none font-weight-bold">
+                        <%=list[key].nama_lengkap%>
+                    </span>
+                    <span class="d-none d-md-inline">
+                        <%=list[key].nik%>
+                    </span>
+                    <small class="badge d-md-none badge-<%=list[key].status == 'Pending' ? 'warning' : list[key].status == 'Tolak' ? 'danger' : 'success' %>">
+                        <%=list[key].status%>
+                    </small>
+                </div>
+                <div class="py-0 py-md-2 px-0 pr-2 col-12 col-md-3">
+                    <span class="float-right d-none d-sm-inline">
+                        <% if (list[key].status == 'Pending') { %>
+                            <a class="btn btn-sm btn-outline-primary shadow-none d-none-xs icon-action px-1" href="/tanggapan-layanan/konfirmasi/<%=list[key].id_layanan%>"><i class="mif-shareable small"></i></a>
+                        <% } %>
+                    </span>
+                    
+                    <span class="d-none d-md-inline">
+                        <%=list[key].nama_lengkap%>
+                    </span>
+                    <small class="d-md-none">
+                        <%=list[key].nik%>
+                    </small>
+                </div>
+                <div class="py-0 py-md-2 px-0 col-12 col-md-3">
+                    <small class="d-md-none">
+                        <%=list[key].nama_jenis_layanan%>
+                    </small>
+                    <span class="d-none d-md-inline">
+                        <%=list[key].nama_jenis_layanan%>
+                    </span>
+                </div>
+                <div class="py-0 py-md-2  px-0 col-12 col-md-1">
+                    <small class="badge d-none d-md-inline badge-<%=list[key].status == 'Pending' ? 'warning' : list[key].status == 'Tolak' ? 'danger' : 'success' %>">
+                        <%=list[key].status%>
+                    </small>                    
+                </div>
+                <div class="py-0 py-md-2 px-0 col-12 col-md-3">
+                    <small class="d-md-none">
+                        <%=list[key].keterangan%>
+                    </small>
+                    <span class="d-none d-md-inline">
+                        <%=list[key].keterangan%>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <% } %>
+    </div>
+</div>
+
+<% include ../layout/foot %>

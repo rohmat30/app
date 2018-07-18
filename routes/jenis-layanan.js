@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Jenis_layanan = require('../obj/jenis_layanan');
-/* GET users listing. */
+
 router.get('/', async function(req, res) {
     var data = {};
     data.title = 'Jenis Layanan';
@@ -38,8 +38,8 @@ router.get('/edit/:id(\\d+)', async function(req, res) {
     data.title = 'Jenis Layanan';
     data.activePage = '/jenis-layanan';
     data.list = await Jenis_layanan.daftar_layanan();
-    data.setvalue = await sql.query('SELECT * FROM layanan WHERE id_layanan = ?',[req.params.id]);
-
+    data.setvalue = await Jenis_layanan.verifikasi_layanan(req.params.id);
+    console.log(data.setvalue);
     res.view('jenis-layanan/index',data);
 }).post('/edit/:id(\\d+)', async function(req, res) {
     var data = {};

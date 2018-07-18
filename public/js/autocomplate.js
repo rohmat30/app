@@ -66,5 +66,6 @@
     $('[data-toggle="modal"]').click(function(){
         $($(this).attr('href')+' .remove-link').attr('href',$(this).attr('data-link'));
         $($(this).attr('href')+' .text-data').text($(this).attr('data-text'));
+        $($(this).attr('href')+' .value-data').val($(this).attr('data-value'));
     });
 })(jQuery)

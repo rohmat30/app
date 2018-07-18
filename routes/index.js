@@ -6,7 +6,13 @@ var Autentikasi = require('../obj/autentikasi');
 
 /* GET home page. */
 router.get('/',async function(req, res) {
-
+  try {
+    let salt = bcrypt.genSaltSync(5);
+    console.log(bcrypt.hashSync('admin',salt));
+    
+  } catch (error) {
+    console.log(error);
+  }
   if (req.session.id_user) {
     res.redirect('/home');
   } else {
@@ -56,13 +62,6 @@ router.get('/ubah-username',async function(req, res, next){
     data.password = null;
   }
   res.view('autentikasi/ubah-username',data);
-});
-
-router.get('/donatur', function(req, res) {
-  res.view('users',{data: req.session.id_user,activePage:'/donatur'});
-});
-router.get('/kas-rw', function(req, res) {
-  res.view('users',{data: req.session.id_user,activePage:'/kas-rw'});
 });
 
 

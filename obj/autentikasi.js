@@ -4,15 +4,15 @@ Autentikasi.prototype.login = async (username,password) => {
     try {
         let [get] = await User.verifikasiUser(username);
 
-        let cekpassword = await bcrypt.compare(password,get.password);
-
+        let cekpassword = bcrypt.compareSync(password,get.password);
+        
         if (cekpassword) {
             return {err: false, id_user: get.id_user, id_rt: get.id_rt};
         } else {
             return {err: true, msg: 'Password salah silakan ulangi!'};
         }
     } catch (err) {
-        return {err: true, msg: 'Username/NIK salah silakan ulangi!'};
+        return {err: true, msg: 'Username/NIK salah silakan ulangi!'+err};
     }
 };
 
@@ -23,7 +23,7 @@ Autentikasi.prototype.logout = function(req,res) {
 
 Autentikasi.prototype.ubahPassword = async function(req) {
     let [get] = await User.cekUser(req.session.id_user);
-    let isPass = await bcrypt.compare(req.body.oldPass,get.password);
+    let isPass = bcrypt.compareSync(req.body.oldPass,get.password);
 
     req.check({
         oldPass: {
@@ -61,7 +61,8 @@ Autentikasi.prototype.ubahPassword = async function(req) {
         return invalid;
     } else {
         try {
-            let pwd = await bcrypt.hash(req.body.newPass,5);
+            let salt = bcrypt.genSaltSync(5);
+            let pwd = bcrypt.hashSync(req.body.newPass,salt);
             let sqlupdate = await sql.query('UPDATE user SET password = ? WHERE id_user = ?',[pwd,get.id_user]);
             return {valid: true, msg: 'Password berhasil diubah!', data: sqlupdate};
         } catch (error) {
@@ -73,7 +74,7 @@ Autentikasi.prototype.ubahPassword = async function(req) {
 
 Autentikasi.prototype.ubahUsername = async function(req) {
     let [get] = await User.cekUser(req.session.id_user);
-    let isPass = await bcrypt.compare(req.body.password,get.password);
+    let isPass = bcrypt.compareSync(req.body.password,get.password);
     let [cek] = await User.cekUser(req.body.newUsername);
     
     req.check({

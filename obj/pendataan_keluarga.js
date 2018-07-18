@@ -1,7 +1,7 @@
 var Pendataan_keluarga = function() {};
 
 Pendataan_keluarga.prototype.daftar_keluarga = async (id_rt) => {
-    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga  WHERE user.aktif = 1';
+    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN user ON keluarga.id_keluarga = user.id_keluarga  WHERE user.aktif = 1';
     if (id_rt != undefined) {
         query += ' AND keluarga.id_rt = '+id_rt;
     }
@@ -11,7 +11,7 @@ Pendataan_keluarga.prototype.daftar_keluarga = async (id_rt) => {
 
 
 Pendataan_keluarga.prototype.cari_keluarga = async (key, id_rt) => {
-    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN USER ON keluarga.id_keluarga = user.id_keluarga';
+    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN user ON keluarga.id_keluarga = user.id_keluarga';
     if (id_rt != undefined) {
         query += ' WHERE keluarga.id_rt = '+id_rt;
     }
@@ -194,7 +194,8 @@ Pendataan_keluarga.prototype.tambah_keluarga = async (req) => {
             let insert_keluarga = await sql.query('INSERT INTO keluarga(nomor_kk,status_tinggal,alamat,tanggal_menempati,status_kepemilikan,status_kk,id_rt) VALUES(?)',[data_keluarga]);
 
             let username_first = insert_keluarga.insertId+post.nama_lengkap.substr(0,1).toUpperCase();
-            let password = await bcrypt.hash('12345',5);
+            let salt = bcrypt.genSaltSync(5);
+            let password = bcrypt.hashSync('12345',salt);
 
             if (cek_non_aktif.length) {
             let data_kepala_keluarga = [
@@ -359,7 +360,8 @@ Pendataan_keluarga.prototype.tambah_anggota_keluarga = async (req) => {
             let post = req.body;
             let tanggal_lahir = new Date(post.tahun_lahir,parseInt(post.bulan_lahir)-1,post.tanggal_lahir);
             let username_first = req.params.id+post.nama_lengkap.substr(0,1).toUpperCase();
-            let password = await bcrypt.hash('12345',5);
+            let salt = bcrypt.genSaltSync(5);
+            let password = bcrypt.hashSync('12345',salt);
 
             if (cek_non_aktif.length) {
                 let data_anggota_keluarga = [

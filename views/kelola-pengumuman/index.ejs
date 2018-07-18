@@ -1,0 +1,45 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="btn-fixed ml-md-4 mt-md-3">
+                    <a href="/kelola-pengumuman/buat" class="btn btn-primary">
+                        <i class="mif-user-plus small"></i>
+                        <span class="d-none d-md-inline">
+                            Buat
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% if (locals.simpan) { %>
+        <div class="alert alert-success">
+            <i class="mif-checkmark"></i>
+            <%=simpan%>
+        </div>
+        <% } %>
+        <% for (var key in list) { %>
+            <div class="ta-list-table">
+                <div class="row m-0 py-2 py-md-0">
+                    <div class="py-0 py-md-2 px-0 col-12">
+                        <span class="d-block">
+                            <a href="/kelola-pengumuman/detail/<%=list[key].id_pengumuman%>">
+                                <%=list[key].judul_pengumuman%>
+                            </a>
+                        </span>
+                        <p class="small text-muted pr-3 mb-0 pr-md-0 ta-text-ellipsis">
+                            <%=list[key].isi_pengumuman.length > 100 ? list[key].isi_pengumuman.substr(0,100) + '...' :  list[key].isi_pengumuman %>
+                        </p>                        
+                    </div>
+                </div>
+            </div>
+        <% } %>    
+    </div>
+</div>
+
+<% include ../layout/foot %>

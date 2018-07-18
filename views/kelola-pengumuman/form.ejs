@@ -1,0 +1,64 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/kelola-pengumuman" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" autocomplete="off">
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Judul</label>
+                <input type="text" maxlength="255" class="shadow-none form-control<%=locals.field_error.judul_pengumuman?' is-invalid':null%>" placeholder="judul_pengumuman" name="judul_pengumuman" value="<%=input.judul_pengumuman ? input.judul_pengumuman.trim() : null%>"/>
+                <% if (locals.field_error.judul_pengumuman) { %>
+                    <small class="text-danger"><%=locals.field_error.judul_pengumuman.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <% if(getLevelUser == 1) { %>
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Untuk</label>
+                <select name="bagikan_kepada" class="shadow-none form-control<%=locals.field_error.bagikan_kepada?' is-invalid':null%>">
+                    <option value="" selected disabled> - Pilih -</option>
+                    <option value="rt"<%=input.bagikan_kepada == 'rt' ? 'selected' : null%>>Hanya RT</option>
+                    <option value="semua"<%=input.bagikan_kepada == 'semua' ? ' selected' : null%>>RT & Warga</option>
+                </select>
+                
+                <% if (locals.field_error.bagikan_kepada) { %>
+                    <small class="text-danger"><%=locals.field_error.bagikan_kepada.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        <% } %>
+    
+        <div class="form-row mb-3">
+            <div class="col">
+                <label class="small m-0">Isi</label>
+                <textarea name="isi_pengumuman" maxlength="2000" class="shadow-none form-control<%=locals.field_error.isi_pengumuman?' is-invalid':null%>" placeholder="Isi"><%=input.isi_pengumuman ? input.isi_pengumuman.trim() : null %></textarea>
+                <% if (locals.field_error.isi_pengumuman) { %>
+                    <small class="text-danger"><%=locals.field_error.isi_pengumuman.msg%></small>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="form-row mb-3 align-middle">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">
+                    <i class="mif-paper-plane"></i>
+                    <span>
+                        Simpan
+                    </span>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<% include ../layout/foot %>

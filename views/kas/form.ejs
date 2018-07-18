@@ -19,7 +19,7 @@
         <div class="form-row mb-3">
             <div class="col">
                 <label class="small m-0">Jumlah</label>
-                <input type="number" min="100" max="9999999999" class="shadow-none form-control<%=locals.field_error.jumlah?' is-invalid':null%>" placeholder="Jumlah" name="jumlah" value="<%=input.jumlah ? input.jumlah.trim() : null%>"/>
+                <input type="number" min="0" max="9999999999" class="shadow-none form-control<%=locals.field_error.jumlah?' is-invalid':null%>" placeholder="Jumlah" name="jumlah" value="<%=input.jumlah ? input.keterangan.trim() : null%>"/>
                 <% if (locals.field_error.jumlah) { %>
                     <small class="text-danger"><%=locals.field_error.jumlah.msg%></small>
                 <% } %>

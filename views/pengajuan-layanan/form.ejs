@@ -1,0 +1,49 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/pengajuan-layanan" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" autocomplete="off">
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label class="small m-0">Jenis Layanan</label>
+                    <select name="jenis_layanan" class="shadow-none form-control<%=locals.field_error.jenis_layanan?' is-invalid':null%>">
+                        <option value="" selected disabled> - Pilih -</option>
+                        <% for (var key in list) { %>
+                        <option value="<%=list[key].id_jenis_layanan%>"<%=input.jenis_layanan == list[key].id_jenis_layanan ? ' selected' : null%>><%=list[key].nama_jenis_layanan%></option>
+                        <% } %>
+                    </select>
+                    <% if (locals.field_error.jenis_layanan) { %>
+                        <small class="text-danger"><%=locals.field_error.jenis_layanan.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label class="small m-0">Keterangan</label>
+                    <textarea name="keterangan" maxlength="255" class="shadow-none form-control<%=locals.field_error.keterangan?' is-invalid':null%>" placeholder="Isi"><%=input.keterangan ? input.keterangan.trim() : null %></textarea>
+                    <% if (locals.field_error.keterangan) { %>
+                        <small class="text-danger"><%=locals.field_error.keterangan.msg%></small>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="form-row mb-3 align-middle">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="mif-paper-plane"></i>
+                        <span>
+                            Simpan
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>        
+    </div>
+<% include ../layout/foot %>

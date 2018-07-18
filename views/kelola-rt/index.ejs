@@ -1,0 +1,54 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <% if (locals.simpan) { %>
+        <div class="alert alert-success">
+            <i class="mif-checkmark"></i>
+            <%=simpan%>
+        </div>
+        <% } %>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th class="pl-0 py-2 border-0" width="80">Nama RT</th>
+                    <th class="py-2 border-0">Ketua RT</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(var key in list) {%>
+                <tr>
+                    <td class="pl-0 py-2" width="80">
+                        <%=list[key].nama_rt%>
+                    </td>
+                    <td class="pr-0 py-2">
+                        <span class="float-right d-none d-sm-inline">
+                            <a class="btn btn-sm btn-outline-primary float-right shadow-none d-none-xs icon-action px-1 py-0" href="/kelola-rt/daftar-warga/<%=list[key].id_rt%>">
+                                <i class="mif-pencil small"></i>
+                                <small>
+                                    Ganti
+                                </small>
+                            </a>
+                        </span>
+                        
+                        <div class="dropdown float-right d-inline-block d-sm-none">
+                            <a class="shadow-none dropdown-toggle text-dark caret-off" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="mif-more-vert mif-lg"></i>
+                            </a>
+                            <div class="dropdown-menu ta-dropdown-menu dropdown-menu-right">
+                                <a href="/kelola-rt/ganti/<%=list[key].id_rt%>" class="dropdown-item small"><i class="mif-pencil"></i> Ganti</a>
+                            </div>
+                        </div>
+                        <%=list[key].nama_lengkap%>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<% include ../layout/foot %>
