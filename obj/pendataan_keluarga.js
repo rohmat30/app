@@ -11,9 +11,9 @@ Pendataan_keluarga.prototype.daftar_keluarga = async (id_rt) => {
 
 
 Pendataan_keluarga.prototype.cari_keluarga = async (key, id_rt) => {
-    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN user ON keluarga.id_keluarga = user.id_keluarga';
+    var query = 'SELECT keluarga.*,GROUP_CONCAT(nama_lengkap) AS daftar_nama, COUNT(nama_lengkap) AS jumlah_anggota FROM keluarga LEFT JOIN user ON keluarga.id_keluarga = user.id_keluarga WHERE user.aktif = 1';
     if (id_rt != undefined) {
-        query += ' WHERE keluarga.id_rt = '+id_rt;
+        query += ' AND keluarga.id_rt = '+id_rt;
     }
     query += ' GROUP BY keluarga.id_keluarga HAVING daftar_nama LIKE "%'+key+'%" OR nomor_kk LIKE "%'+key+'%"';
     return await sql.query(query);

@@ -1,0 +1,156 @@
+<% include ../layout/head %>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/iuran-warga" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 mt-0">
+                <div class="media mb-md-3">
+                    <div class="media-body mb-0 mt-sm-1">
+                        <p class="text-capitalize d-none d-sm-block float-right">Status Tinggal : <%=detail_kk.status_tinggal%></p>
+                        <h5 class="mb-0 ta-list-title">
+                            No. KK : <%=detail_kk.nomor_kk%>
+                        </h5>
+                        <p class="text-capitalize mb-0">Alamat : <%=detail_kk.alamat%></p>
+                        <p class="text-capitalize d-block d-sm-none">Status Tinggal : <%=detail_kk.status_tinggal%></p>
+                    </div>
+                </div>
+                <% if (locals.simpan) { %>
+                    <div class="alert alert-success">
+                        <i class="mif-checkmark"></i>
+                        <%=simpan%>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <% if (detail_kk.nama_lengkap!=null) { %>
+            <div class="row font-weight-bold m-0 py-2 py-md-0 d-none d-md-flex">
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-4 col-lg-3 order-2 order-md-1">NIK</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-5 col-lg-3 order-1 order-md-2">Nama Lengkap</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3">Status Keluarga</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">Tanggal Lahir</div>
+                <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 order-5 d-none d-xl-flex">Jenis Kelamin</div>
+            </div>
+            <% for(var i in data) { %>
+            <div class="ta-list-table">
+                <div class="row m-0 py-2 py-md-0">
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-4 col-lg-3 order-2 order-md-1"><span class="d-md-none">NIK</span> <%=data[i].nik%></div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-5 col-lg-3 order-1 order-md-2  font-weight-xs-bold">
+                    <a href="#show<%=parseInt(data[i].id_user)%>" data-toggle="show-detail" class="btn btn-sm btn-outline-default float-right shadow-none d-none-xs icon-action"><i class="mif-expand-more mif-lg"></i></a>    
+                    <%=data[i].nama_lengkap%>
+                </div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-md-3 col-lg-3 col-xl-2 col-lg-2 order-3 text-capitalize"><%=data[i].status_keluarga.replace(/\_/,' ')%></div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">
+                    <%=data[i].tanggal_lahir%>
+                </div>
+                <div class="py-0 py-md-2 pl-0 pr-2 col-xl-2 order-5 d-none d-xl-flex"><%=data[i].jenis_kelamin=='L'?'Laki-laki':'Perempuan'%></div>
+                </div>
+                <div class="mx-2 mt-2 alert alert-info" style="display: none;" id="show<%=parseInt(data[i].id_user)%>">
+                    <% var agama = ['Islam','Kristen','Katholik','Hindu','Buddha','Kong Hu Cu'] %>
+                    <% var pendidikan = ['Tidak / Belum Sekolah','Belum Tamat SD / Sederajat','Tamat SD / Sederajat','SLTP / Sederajat', 'SLTA / Sederajat', 'Diploma I / II', 'Akademi / Diploma III / Sarjana Muda','Diploma IV / Strata I', 'Strata II', 'Strata III'] %>
+                    <% var status_perkawinan = ['Belum Kawin','Kawin','Cerai Hidup','Cerai Mati'] %>
+                    <table>
+                        <tr>
+                            <td>Jenis Kelamin</td>
+                            <td>:</td>
+                            <td>
+                                <%=data[i].jenis_kelamin=='L'?'Laki-Laki':'Perempuan'%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tempat/Tanggal Lahir</td>
+                            <td>:</td>
+                            <td>
+                                <%=data[i].tempat_lahir%> / 
+                                <%=data[i].tanggal_lahir.split('/').join('-')%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agama</td>
+                            <td>:</td>
+                            <td>
+                                <%=agama[parseInt(data[i].agama)-1]%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pendidikan Terakhir</td>
+                            <td>:</td>
+                            <td>
+                                <%=pendidikan[parseInt(data[i].pendidikan)-1]%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Status Perkawinan</td>
+                            <td>:</td>
+                            <td>
+                                <%=status_perkawinan[parseInt(data[i].status_perkawinan)-1]%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <% } %>
+        <% } else { %>
+            <div class="alert alert-danger">Belum ada anggota keluarga</div>
+        <% } %>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th width="30" class="text-center">#</th>
+                        <th width="120" class="text-center">Bulan</th>
+                        <th width="120" class="text-center">Tahun</th>
+                        <th width="120" class="text-center">Jumlah</th>
+                        <th>Status</th>
+                        <th width="160">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% let bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'] %>
+                <% for (var key in bayar_iuran) { %>
+                    <tr>
+                        <td class="text-right"><%=parseInt(key)+1%></td>
+                        <td class="text-center"><%=bulan[bayar_iuran[key].bulan-1]%></td>
+                        <td class="text-center"><%=bayar_iuran[key].tahun%></td>
+                        <td class="text-right"><%=bayar_iuran[key].tarif%></td>
+                        <td>
+                            <% if(bayar_iuran[key].status === true) { %>
+                                <span class="badge badge-primary">
+                                    <i class="mif-checkmark small"></i>
+                                    Sudah Bayar
+                                </span>
+                            <% } else { %>
+                                <span class="badge badge-danger">
+                                    <i class="mif-cross small"></i>
+                                    Belum Bayar
+                                </span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if(bayar_iuran[key].status === false) { %>
+                            <form action="/iuran-warga/proses-transaksi/<%=params.id%>" method="post">
+                                <input type="hidden" name="bulan" value="<%=bayar_iuran[key].bulan%>">
+                                <input type="hidden" name="tahun" value="<%=bayar_iuran[key].tahun%>">
+                                <button type="submit" class="btn py-0 px-1 btn-primary btn-sm" name="value" value="<%=bayar_iuran[key].tarif%>">
+                                    <i class="mif-coins"></i>
+                                    Bayar
+                                </button>
+                            </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<% include ../layout/foot %>

@@ -15,6 +15,12 @@ Pengumuman.prototype.daftar_pengumuman = async (id_rt,share) => {
     return await sql.query(query);
 }
 
+
+Pengumuman.prototype.detail_pengumuman = async (id_pengumuman) => {
+    let query = 'SELECT * FROM pengumuman WHERE id_pengumuman = ?';
+    return await sql.query(query,[id_pengumuman]);
+}
+
 Pengumuman.prototype.validasi_pengumuman = (req, level_user) => {
     var validation_form = {
         judul_pengumuman : {

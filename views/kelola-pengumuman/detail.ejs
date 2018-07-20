@@ -1,0 +1,34 @@
+<% include ../layout/head %>
+
+<% if(detail.length) { %>
+    <div class="mb-3 card">
+        <div class="card-header">
+            <h4 class="card-title">
+                <a href="<%=activePage%>" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+                <span class="d-inline-block align-middle">
+                    <%=title%>
+                </span>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 text-muted">
+                    <h4 class="text-primary"><%=detail[0].judul_pengumuman%></h4>
+                    <span class="d-inline-block">
+                        <i class="mif-calendar"></i>
+                        <% var gDate = new Date(detail[0].tanggal) %>
+                        <%=gDate.getDate()+'/'+(gDate.getMonth()+1).toString().padStart(3-gDate.getMonth().toString().length,'0')+'/'+gDate.getFullYear() %>
+                        <%=new Date(2018,12,1).getFullYear()%>
+                    </span>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <%-detail[0].isi_pengumuman.replace(/(?:\r\n|\r|\n)/g,'<br>')%>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+    
+<% include ../layout/foot %>

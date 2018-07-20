@@ -16,6 +16,18 @@ router.get('/', async function(req, res) {
     res.view('kelola-pengumuman/index',data);
 });
 
+router.get('/detail/:id(\\d+)', async function(req, res) {
+    var data = {}
+    data.title = 'Kelola Pengumuman';
+    data.activePage = '/kelola-pengumuman';
+    data.detail = await Pengumuman.detail_pengumuman(req.params.id);
+    if (req.session.msg) {
+        data.simpan = req.session.msg;
+        req.session.msg = null;
+    }
+    res.view('kelola-pengumuman/detail',data);
+});
+
 router.get('/buat', async function(req, res) {
     var data = {}
     data.title = 'Kelola Pengumuman';
@@ -32,7 +44,6 @@ router.get('/buat', async function(req, res) {
     }
     res.view('kelola-pengumuman/form',data);
 });
-
 
 
 module.exports = router;

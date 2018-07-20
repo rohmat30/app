@@ -7,24 +7,38 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6 order-2 order-md-1">
-                <div>
+                <div class="mt-3 mt-md-0">
                     <% let gDate = tarif.tanggal_berlaku.split(' ')[0].split('/'); %>
                     <% let gTime = tarif.tanggal_berlaku.split(' ')[1].split(':'); %>
-                    <% let date1 = new Date(gDate[2],gDate[1]-1,parseInt(gDate[0])+1,gTime[0],gTime[1],gTime[2]).getTime()%>
+                    <% let date1 = new Date(gDate[2],gDate[1],1).getTime()%>
                     <% let now   = new Date().getTime()%>
-                    <small class="text-secondary">
-                        Tarif Iuran : 
-                    </small>
-                    <h4>
-                        Rp. <%=tarif.jumlah_tarif%>
-                        <% if (date1 < now) { %>            
-                        <a data-toggle="modal" class="shadow-none" href="#confirm" data-value="<%=tarif.jumlah_tarif%>">
-                            <small class="shadow-none">
-                                <i class="mif-pencil small shadow-none"></i>
-                            </small>
-                        </a>
-                        <% } %>
-                    </h4>
+                    <table class="table table-sm table-bordered">
+                        <tr class="small">
+                            <td>Tarif Iuran</td>
+                            <td>Bulan Ini</td>
+                            <td>Semua</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Rp. <%=tarif.jumlah_tarif%>
+                                <% if (date1 < now) { %>            
+                                <a data-toggle="modal" class="shadow-none" href="#confirm" data-value="<%=tarif.jumlah_tarif%>">
+                                    <small class="shadow-none">
+                                        <i class="mif-pencil small shadow-none"></i>
+                                    </small>
+                                </a>
+                                <% } %>
+                            </td>
+                            <td>
+                                Rp. 
+                                <%=pendapatan.bulan_ini%>
+                            </td>
+                            <td>
+                                Rp. 
+                                <%=pendapatan.semua%>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="col-md-6 col-lg-5 offset-lg-1 order-1 order-md-2 col-xl-3 offset-xl-3">
@@ -82,7 +96,7 @@
                             <i class="mif-more-vert mif-lg"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/iuran-warga/transaksi/<%=list[i].id_keluarga%>">Lihat</a>
+                            <a class="dropdown-item" href="/iuran-warga/transaksi/<%=list[i].id_keluarga%>">Transaksi</a>
                         </div>
                     </div>
                 </div>
