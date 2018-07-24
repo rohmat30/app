@@ -52,7 +52,6 @@ Buku_tamu.prototype.tambah = async (req) => {
             let sql_insert = await sql.query('INSERT INTO buku_tamu(nik,nama_tamu,tujuan,alamat_asal,id_rt) VALUES(?)',[data_insert]);
             return {success: sql_insert}
         } catch (error) {
-            console.log(error);
             return {error: err};
         }
     }
@@ -80,6 +79,10 @@ Buku_tamu.prototype.ubah = async (req) => {
             return {error: err};
         }
     }
+}
+
+Buku_tamu.prototype.verifikasi_tamu = async (id_tamu) => {
+    return await sql.query('SELECT * FROM buku_tamu WHERE id = ?',[id_tamu])
 }
 
 module.exports = new Buku_tamu();

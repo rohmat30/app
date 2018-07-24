@@ -551,10 +551,6 @@ Pendataan_keluarga.prototype.ubah_anggota_keluarga = async (req,mynik) => {
     }
 }
 
-Pendataan_keluarga.prototype.cek_status_kepala_keluarga = (id_keluarga) => {
-    return sql.query('SELECT * FROM v_status_kepala_keluarga WHERE id_keluarga = ?',[id_keluarga]);
-}
-
 Pendataan_keluarga.prototype.simpan_keluarga = (id) => {
     return sql.query('UPDATE keluarga SET status_kk = 1 WHERE id_keluarga = ?',[id]);
 }

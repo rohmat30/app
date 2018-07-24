@@ -7,7 +7,7 @@ router.get('/', async function(req, res) {
     var data            = {};
         data.title      = 'Aspirasi Warga';
         data.activePage = '/aspirasi-warga';
-        data.list = await Aspirasi.daftar_aspirasi(1);
+        data.list = await Aspirasi.daftar_aspirasi(req.session.id_rt);
 
     res.view('aspirasi/index_rt',data);
 });

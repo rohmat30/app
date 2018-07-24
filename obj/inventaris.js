@@ -62,7 +62,6 @@ Inventaris.prototype.tambah_inventaris = async (req) => {
                 rt_rw
             ];
             let sql_insert = await sql.query('INSERT INTO inventaris(nama_barang,jumlah,kondisi,keterangan,rt_rw) VALUES(?)',[data_insert]);
-            console.log(sql_insert);
             return {success: sql_insert};
         } catch (error) {
             return {error: error}

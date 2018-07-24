@@ -1,0 +1,64 @@
+<% include ../layout/head %>
+
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title">
+            <a href="/kelola-rt" class="btn btn-sm btn-outline-primary rounded-circle"><i class="mif-arrow-left"></i></a>
+            <span class="d-inline-block align-middle">
+                <%=title%>
+            </span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+        </div>
+        <div class="row mt-3">
+        <% if (daftar_user.length) {%>
+            <div class="col-12">
+                <div class="mb-3">
+                    <% if(getLevelUser === 2) { %>
+                        <a href="/laporan/preview" target="_blank" class="btn btn-primary">Preview</a>
+                    <% } else { %>
+                        <a href="/laporan/preview" class="btn btn-primary">Preview</a>
+                    <% } %>
+                </div>
+        <% let agama = ['Islam','Kristen','Katholik','Hindu','Buddha','Kong Hu Cu']; %>
+        <% let status_kawin = ['Belum Kawin','Kawin','Cerai Hidup','Cerai Mati'];%>
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <th>#</th>
+                    <th>NIK</th>
+                    <th>Nama Lengkap</th>
+                    <th>Tempat Lahir</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Agama</th>
+                    <th>Status</th>
+                </tr>
+                <% for(var i in daftar_user) { %>
+                    <tr>
+                        <td class="text-right"><%=parseInt(i)+1%></td>
+                        <td><%=daftar_user[i].nik%></td>
+                        <td><%=daftar_user[i].nama_lengkap%></td>
+                        <td><%=daftar_user[i].tempat_lahir%></td>
+                        <td><%=daftar_user[i].tanggal_lahir%></td>
+                        <td><%=agama[daftar_user[i].agama-1]%></td>
+                        <td><%=status_kawin[daftar_user[i].status_perkawinan]%></td>
+                    </tr>
+                <% } %>
+            </table>
+        <% }else { %>  
+        </div>
+            <% if (key) { %>
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        Pencarian warga untuk <strong><%=key%></strong> tidak ditemukan!
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% include ../layout/foot %>

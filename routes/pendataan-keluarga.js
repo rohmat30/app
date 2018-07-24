@@ -111,12 +111,9 @@ router.get('/ubah-anggota/:id(\\d+)/:id_user(\\d+)',async function(req, res, nex
     data.activePage = '/pendataan-keluarga';
     data.param = req.params;
   
-    data.kepala_keluarga = await Pendataan_keluarga.cek_status_kepala_keluarga(req.params.id);    
     let anggota = await Pendataan_keluarga.anggota_keluarga(req.params.id);
     let detail_kk = anggota.length?anggota[0]:{};
-    if(data.kepala_keluarga.length) {
-        data.pasangan = await (anggota.find(e => e.status_keluarga == 'istri' || e.status_keluarga == 'suami')?true:false)
-    }
+    
     let setvalue = [];
     setvalue[0] = await (anggota.find(e => parseInt(e.id_user) == parseInt(req.params.id_user)));
     let [tanggal_lahir,bulan_lahir,tahun_lahir] = setvalue[0].tanggal_lahir.split('/');
@@ -136,13 +133,8 @@ router.get('/ubah-anggota/:id(\\d+)/:id_user(\\d+)',async function(req, res, nex
     data.activePage = '/pendataan-keluarga';
     data.param = req.params;
     
-    data.kepala_keluarga = await Pendataan_keluarga.cek_status_kepala_keluarga(req.params.id);
-    
     let anggota = await Pendataan_keluarga.anggota_keluarga(req.params.id);
     let detail_kk = anggota.length?anggota[0]:{};
-    if(data.kepala_keluarga.length) {
-        data.pasangan = await (anggota.find(e => e.status_keluarga == 'istri' || e.status_keluarga == 'suami')?true:false)
-    }
 
     let get = await (anggota.find(e => parseInt(e.id_user) == parseInt(req.params.id_user)));
     data.data = await Pendataan_keluarga.ubah_anggota_keluarga(req,get.nik);

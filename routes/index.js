@@ -6,13 +6,6 @@ var Autentikasi = require('../obj/autentikasi');
 
 /* GET home page. */
 router.get('/',async function(req, res) {
-  try {
-    let salt = bcrypt.genSaltSync(5);
-    console.log(bcrypt.hashSync('admin',salt));
-    
-  } catch (error) {
-    console.log(error);
-  }
   if (req.session.id_user) {
     res.redirect('/home');
   } else {

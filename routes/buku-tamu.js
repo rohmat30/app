@@ -7,7 +7,7 @@ router.get('/', async function(req, res) {
     var data        = {};
     data.title      = 'Buku Tamu';
     data.activePage = '/buku-tamu';
-    data.list       = await Buku_tamu.daftar_tamu(1);
+    data.list       = await Buku_tamu.daftar_tamu(req.session.id_rt);
 
     if (req.session.msg) {
         data.simpan = req.session.msg;
@@ -41,9 +41,12 @@ router.get('/edit/:id(\\d+)', async function(req, res) {
     var data        = {};
     data.title      = 'Ubah Data Tamu';
     data.activePage = '/buku-tamu';
-    data.setvalue = await sql.query('SELECT * FROM buku_tamu WHERE id = ?',[req.params.id]);
-
-    res.view('buku-tamu/form',data);
+    data.setvalue = await Buku_tamu.verifikasi_tamu(req.params.id);
+    if (data.setvalue.length) {
+        res.view('buku-tamu/form',data);
+    } else {
+        next()
+    }
 }).post('/edit/:id(\\d+)', async function(req, res) {
     var data        = {};
     data.title      = 'Ubah Data Tamu';

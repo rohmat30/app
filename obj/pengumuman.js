@@ -50,7 +50,7 @@ Pengumuman.prototype.validasi_pengumuman = (req, level_user) => {
     return req.validationErrors(); 
 }
 
-Pengumuman.prototype.buat = async (req) => {
+Pengumuman.prototype.buat_pengumuman = async (req) => {
     let [user] = await User.cekAktifUser(req.session.id_user);
     let invalid = Pengumuman.prototype.validasi_pengumuman(req, user.level_user);
     

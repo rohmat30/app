@@ -1,7 +1,7 @@
 var Iuran_warga = function() {}
 
 Iuran_warga.prototype.tarif_baru = async (req) => {
-    let tarif = await Iuran_warga.prototype.tarif_iuran(1);
+    let tarif = await Iuran_warga.prototype.tarif_iuran(req.session.id_rt);
     req.checkBody({
         jumlah: {
             isInt: {

@@ -37,7 +37,7 @@ router.get('/buat', async function(req, res) {
     var data = {}
     data.title = 'Kelola Pengumuman';
     data.activePage = '/kelola-pengumuman';
-    var proses = await Pengumuman.buat(req);
+    var proses = await Pengumuman.buat_pengumuman(req);
     if (proses.success) {
         req.session.msg = 'Berhasil ditambahkan';
         res.redirect('/kelola-pengumuman');

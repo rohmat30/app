@@ -21,7 +21,7 @@ router.get('/', async function(req, res, next) {
 
     data.tarif = await Iuran_warga.tarif_iuran(req.session.id_rt);
     data.pendapatan = await Iuran_warga.jumlah_bayar(req.session.id_rt);
-    console.log(data.pendapatan);
+
     if (data.tarif) {
         res.view('iuran-warga/index',data);
     } else {
