@@ -2,7 +2,7 @@ var PdfTable = require('voilab-pdf-table'),
     PdfDocument = require('pdfkit');
 
 var Laporan = function() {};
-Laporan.prototype.buat_laporan = function(data) {
+Laporan.prototype.buat_laporan = function(data, id_rt) {
     let data_warga = [];
     let agama = ['Islam','Kristen','Katholik','Hindu','Buddha','Kong Hu Cu'];
     let status_kawin = ['Belum Kawin','Kawin','Cerai Hidup','Cerai Mati'];
@@ -10,6 +10,7 @@ Laporan.prototype.buat_laporan = function(data) {
         data_warga[key] = data[key];
         data_warga[key].agama = agama[data[key].agama-1];
         data_warga[key].status_kawin = status_kawin[data[key].status_perkawinan-1];
+        data_warga[key].no = parseInt(key) + 1;
     }
     var pdf = new PdfDocument({
         autoFirstPage: false,
@@ -30,6 +31,11 @@ Laporan.prototype.buat_laporan = function(data) {
         headerPadding: [5,5,0,5]            
     })
     .addColumns([
+        {
+            id: 'no',
+            header: 'No',
+            width: 30
+        },
         {
             id: 'nik',
             header: 'NIK',
@@ -75,13 +81,16 @@ Laporan.prototype.buat_laporan = function(data) {
     });
     
     pdf.on('pageAdded',() =>{
+        pdf.font('Times-Bold').fontSize(16).text('PENGURUS KAMPUNG DARUNGDUNG RT0'+id_rt+' RW02\nDESA GUDANG KEC. CIKALONGKULON\nKABUPATEN CIANJUR',{align: 'center', dpi: 400});
+        pdf.image('public/img/logo-cianjur.png',48,32,{fit: [52,52]});
+        pdf.moveTo(32,92).lineTo(810,92);
+        pdf.font('Times-Bold').fontSize(14).text('LAPORAN DATA PENDUDUK',90, 100, {align: 'center', dpi: 400});
         pdf.font('Times-Roman');
-        pdf.fontSize(18).text('Rekap Data penduduk kampung Darungdung',72,96);
         pdf.fontSize(11);
     });
     
     pdf.addPage({
-        margin: 72,
+        margin: 32,
         layout: 'landscape',
         size: 'A4'
     });

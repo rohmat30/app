@@ -7,21 +7,36 @@ var cookieParser     = require('cookie-parser');
 var logger           = require('morgan');
 var mysql            = require('promise-mysql');
 
-global.bcrypt = require('bcrypt');
+global.bcrypt = require('bcrypt-nodejs');
 
+// connect db
 global.sql = mysql.createPool({
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'ewarga'
+  user: 'ewargasi_root',
+  password: 'e-warga_site',
+  database: 'ewargasi_db'
 });
 
-var indexRouter             = require('./routes/index');
-var usersRouter             = require('./routes/users');
-var pendataanKeluargaRouter = require('./routes/pendataan-keluarga');
-var jenisLayananRouter      = require('./routes/jenis-layanan');
-var bukuTamuRouter          = require('./routes/buku-tamu');
-var inventarisRouter        = require('./routes/inventaris');
+// get source
+var indexRouter               = require('./routes/index');
+var homeRouter                = require('./routes/home');
+var pendataanKeluargaRouter   = require('./routes/pendataan-keluarga');
+var jenisLayananRouter        = require('./routes/jenis-layanan');
+var bukuTamuRouter            = require('./routes/buku-tamu');
+var inventarisRouter          = require('./routes/inventaris');
+var aspirasiWargaRouter       = require('./routes/aspirasi-warga');
+var kasRouter                 = require('./routes/kas');
+var tanggapanLayananRouter    = require('./routes/tanggapan-layanan');
+var kelolaPengumumanRouter    = require('./routes/kelola-pengumuman');
+var iuranWargaRouter          = require('./routes/iuran-warga');
+var laporanRouter             = require('./routes/laporan');
+var penyampaianAspirasiRouter = require('./routes/panyampaian-aspirasi');
+var anggotaKeluargaRouter     = require('./routes/anggota-keluarga');
+var pengajuanLayananRouter    = require('./routes/pengajuan-layanan');
+var pengumumanRouter          = require('./routes/pengumuman');
+var kelolaRTRouter            = require('./routes/kelola-rt');
+var pelayananRouter           = require('./routes/pelayanan');
+var keuanganRouter            = require('./routes/keuangan');
 
 var app = express();
 // view engine setup
@@ -38,22 +53,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// menu access
 const menu = [[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
-  {url: [{url:'/kas-rw',text: 'Kas RW',icon:'mif-paypal'},{url: '/donatur',text: 'Donatur',icon:'mif-folder-shared'}],text: 'Kelola Keuangan',icon: 'mif-dollar'},
+  {url: [{url:'/pelayanan',text: 'Pelayanan',icon:'mif-book-reference'},{url: '/jenis-layanan',text: 'Jenis Layanan',icon:'mif-menu'}],text: 'Kelola Layanan',icon: 'mif-layers'},
+  {url: '/kas',text: 'Kas RW',icon:'mif-paypal'},
   {url: '/kelola-rt',text: 'Kelola RT',icon: 'mif-user-secret'},
   {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-books'},
-  {url: '/pelayanan',text: 'Pelayanan',icon: 'mif-layers'},
   {url: '/inventaris',text: 'Inventaris',icon: 'mif-shopping-basket2'},
   {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
 ],[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
-  {url: [{url:'/pendataan-keluarga',text: 'Data Keluarga',icon:'mif-user-plus'},{url: '/mutasi-warga',text: 'Mutasi Warga',icon:'mif-user-minus'}],text: 'Kelola Warga',icon: 'mif-users'},
-  {url: [{url:'/tanggapan-layanan',text: 'Tanggapan',icon:'mif-open-book'},{url: '/jenis-layanan',text: 'Jenis Layanan',icon:'mif-menu'}],text: 'Layanan',icon: 'mif-cabinet'},
+  {url: '/pendataan-keluarga', text: 'Pendataan Keluarga',icon: 'mif-users'},
+  {url: '/tanggapan-layanan',text: 'Tanggapan Layanan',icon: 'mif-cabinet'},
   {url: '/kelola-pengumuman',text: 'Kelola Pengumuman',icon: 'mif-volume-low'},
   {url: '/aspirasi-warga',text: 'Aspirasi Warga',icon: 'mif-books'},
   {url: '/iuran-warga',text: 'Iuran Warga',icon: 'mif-credit-card'},
-  {url: '/kas-rt',text: 'Kas RT',icon: 'mif-paypal'},
+  {url: '/kas',text: 'Kas RT',icon: 'mif-paypal'},
   {url: '/buku-tamu',text: 'Buku Tamu',icon: 'mif-book-reference'},
   {url: '/inventaris',text: 'Inventaris',icon: 'mif-shopping-basket2'},
   {url: '/laporan',text: 'Laporan',icon: 'mif-news'},
@@ -61,7 +77,8 @@ const menu = [[
   {url: '/home',text: 'Beranda',icon: 'mif-home'},
   {url: '/pengajuan-layanan',text: 'Pengajuan Layanan',icon: 'mif-upload'},
   {url: '/pengumuman',text: 'Pengumuman',icon: 'mif-bell'},
-  {url: '/pengajuan-aspirasi',text: 'Pengajuan Aspirasi',icon: 'mif-evernote'},
+  {url: '/penyampaian-aspirasi',text: 'Penyampaian Aspirasi',icon: 'mif-evernote'},
+  {url: '/keuangan',text: 'Keuangan',icon: 'mif-coins'},
   {url: '/anggota-keluarga',text: 'Anggota Keluarga',icon: 'mif-users'},
 ]];
 
@@ -90,11 +107,11 @@ var active_page = function(data, page) {
 }
 
 app.use(function(req, res, next){
-  res.view =  function(page, data) {
+  res.view = function(page, data) {
     if (data == undefined) {
       data = {};
     }
-    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user?req.session.id_user:2]).then(function(rows){
+    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user ? req.session.id_user : 2]).then(function(rows){
       try {
         levelUser = rows[0].level_user;
         data.getLevelUser = levelUser;
@@ -102,7 +119,7 @@ app.use(function(req, res, next){
             next();
         }
         data.menu = menu[levelUser-1];
-        var errors = data.errors_custom?data.errors_custom:req.validationErrors();
+        var errors = data.errors_custom ? data.errors_custom : req.validationErrors();
         
         data.field_error = {};
 
@@ -137,12 +154,26 @@ app.use(function(req, res, next){
   next();
 });
 
+// set route
 app.use('/', indexRouter);
-app.use('/home', usersRouter);
+app.use('/home', homeRouter);
 app.use('/pendataan-keluarga', pendataanKeluargaRouter);
 app.use('/jenis-layanan', jenisLayananRouter);
 app.use('/buku-tamu', bukuTamuRouter);
 app.use('/inventaris', inventarisRouter);
+app.use('/aspirasi-warga', aspirasiWargaRouter);
+app.use('/kas', kasRouter);
+app.use('/tanggapan-layanan', tanggapanLayananRouter);
+app.use('/kelola-pengumuman', kelolaPengumumanRouter);
+app.use('/iuran-warga', iuranWargaRouter);
+app.use('/laporan', laporanRouter);
+app.use('/kelola-rt', kelolaRTRouter);
+app.use('/pelayanan', pelayananRouter);
+app.use('/penyampaian-aspirasi', penyampaianAspirasiRouter);
+app.use('/anggota-keluarga', anggotaKeluargaRouter);
+app.use('/pengajuan-layanan', pengajuanLayananRouter);
+app.use('/pengumuman', pengumumanRouter);
+app.use('/keuangan', keuanganRouter);
 
 
 // catch 404 and forward to error handler

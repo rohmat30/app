@@ -3,10 +3,10 @@ var Aspirasi = function () {}
 Aspirasi.prototype.daftar_aspirasi = async (id_rt, id_user) => {
     let sql_query;
     if (id_user != undefined) {
-        sql_query = 'SELECT id_aspirasi,DATE_FORMAT(tanggal,"%d/%m/%Y") as tanggal,DATE_FORMAT(tanggal,"%H:%i:%s") as waktu,judul_aspirasi,isi_aspirasi,id_user,id_rt FROM aspirasi WHERE id_rt = ? AND id_user = ?';
+        sql_query = 'SELECT id_aspirasi,DATE_FORMAT(tanggal,"%d/%m/%Y") as tanggal,DATE_FORMAT(tanggal,"%H:%i:%s") as waktu,judul_aspirasi,isi_aspirasi,id_user,id_rt FROM aspirasi WHERE id_rt = ? AND id_user = ? ORDER BY tanggal DESC';
         return await sql.query(sql_query, [id_rt, id_user]);
     } else {
-        sql_query = 'SELECT user.id_user,user.nama_lengkap,user.nik,aspirasi.id_aspirasi,DATE_FORMAT(aspirasi.tanggal,"%d/%m/%Y") as tanggal,DATE_FORMAT(aspirasi.tanggal,"%H:%i:%s") as waktu,aspirasi.judul_aspirasi,aspirasi.isi_aspirasi,aspirasi.id_rt FROM aspirasi INNER JOIN user ON user.id_user = aspirasi.id_user WHERE aspirasi.id_rt = ?';
+        sql_query = 'SELECT user.id_user,user.nama_lengkap,user.nik,aspirasi.id_aspirasi,DATE_FORMAT(aspirasi.tanggal,"%d/%m/%Y") as tanggal,DATE_FORMAT(aspirasi.tanggal,"%H:%i:%s") as waktu,aspirasi.judul_aspirasi,aspirasi.isi_aspirasi,aspirasi.id_rt FROM aspirasi INNER JOIN user ON user.id_user = aspirasi.id_user WHERE aspirasi.id_rt = ? ORDER BY tanggal DESC';
         return await sql.query(sql_query, [id_rt]);
     }
 }

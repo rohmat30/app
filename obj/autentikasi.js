@@ -12,7 +12,7 @@ Autentikasi.prototype.login = async (username,password) => {
             return {err: true, msg: 'Password salah silakan ulangi!'};
         }
     } catch (err) {
-        return {err: true, msg: 'Username/NIK salah silakan ulangi!'+err};
+        return {err: true, msg: 'Username/NIK salah silakan ulangi!'};
     }
 };
 

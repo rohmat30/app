@@ -5,9 +5,9 @@ Kas.prototype.daftar_transaksi = async (req) => {
     var id_start;
     
     if (user.level_user == 1) {
-        id_start = user.level_user.toString();
+        id_start = '1';
     } else {
-        id_start = user.level_user.toString()+req.session.id_rt.toString();
+        id_start = '2'+req.session.id_rt.toString();
     }
 
     let data  = [],
@@ -145,7 +145,7 @@ Kas.prototype.generate_id_kas = async (first_text,req) => {
 
 Kas.prototype.kas_total = async (req,kas) => {
     let [user]      = await User.cekUser(req.session.id_user);
-    let id_start    = user.level_user.toString()+req.session.id_rt.toString();
+    let id_start    = (user.level_user == 1 ? '1' : '2')+req.session.id_rt.toString();
     let [trans_in]  = await sql.query('SELECT COALESCE(SUM(jumlah),0) AS total FROM kas WHERE no_transaksi LIKE ? LIMIT 1',['I'+id_start+'%']);
     let [trans_out] = await sql.query('SELECT COALESCE(SUM(jumlah),0) AS total FROM kas WHERE no_transaksi LIKE ? LIMIT 1',['O'+id_start+'%']);
     let total       = 0;
@@ -163,5 +163,6 @@ Kas.prototype.kas_total = async (req,kas) => {
     }
     return total;
 }
+
 
 module.exports = new Kas();

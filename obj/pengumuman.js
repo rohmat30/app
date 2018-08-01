@@ -12,6 +12,7 @@ Pengumuman.prototype.daftar_pengumuman = async (id_rt,share) => {
             query += ' OR bagikan_kepada = "semua"';
         }
     }
+    query += ' ORDER BY tanggal DESC';
     return await sql.query(query);
 }
 

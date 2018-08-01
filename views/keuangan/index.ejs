@@ -1,0 +1,56 @@
+
+<%- include ../layout/head -%>
+<div class="mb-3 card">
+    <div class="card-header">
+        <h4 class="card-title"><%=title%></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Kas</h5>
+                <div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Kas Masuk</th>
+                            <td>
+                                <%=kas_masuk%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Kas Keluar</th>
+                            <td>
+                                <%=kas_keluar%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Kas Saldo</th>
+                            <td>
+                                <%=kas_saldo%>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                <h5>Iuran Warga</h5>
+                <div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Bulan Ini</th>
+                            <td>
+                                <%=iuran_warga.bulan_ini%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Total Iuran</th>
+                            <td>
+                                <%=iuran_warga.semua%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include ../layout/foot -%>

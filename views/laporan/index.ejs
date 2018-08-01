@@ -19,11 +19,30 @@
             <div class="col-12">
                 <div class="mb-3">
                     <% if(getLevelUser === 2) { %>
-                        <a href="/laporan/preview" target="_blank" class="btn btn-primary">Preview</a>
+                        <a href="/laporan/preview" target="_blank" class="btn btn-primary">
+                            <i class="mif-file-pdf"></i>
+                            <span class="">PREVIEW</span>
+                        </a>
                     <% } else { %>
-                        <a href="/laporan/preview" class="btn btn-primary">Preview</a>
+                        <form action="/laporan/preview" target="_blank" method="POST">
+                            <div class="row">
+                                <div class="col-md-4 col-9">
+                                    <select name="id_rt" class="form-control">
+                                        <option value="1">RT 01</option>
+                                        <option value="2">RT 02</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="mif-file-pdf"></i>
+                                        <span class="d-none d-md-inline">PREVIEW</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     <% } %>
                 </div>
+        <% if(getLevelUser === 2) { %>
         <% let agama = ['Islam','Kristen','Katholik','Hindu','Buddha','Kong Hu Cu']; %>
         <% let status_kawin = ['Belum Kawin','Kawin','Cerai Hidup','Cerai Mati'];%>
             <table class="table table-bordered table-sm">
@@ -48,16 +67,9 @@
                     </tr>
                 <% } %>
             </table>
-        <% }else { %>  
+        <% } %>  
         </div>
-            <% if (key) { %>
-                <div class="col-12">
-                    <div class="alert alert-danger">
-                        Pencarian warga untuk <strong><%=key%></strong> tidak ditemukan!
-                    </div>
-                </div>
-            <% } %>
-        <% } %>
+        <% } %>  
     </div>
 </div>
 
