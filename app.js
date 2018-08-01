@@ -111,7 +111,7 @@ app.use(function(req, res, next){
     if (data == undefined) {
       data = {};
     }
-    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user ? req.session.id_user : 2]).then(function(rows){
+    sql.query('SELECT level_user FROM user WHERE id_user = ? LIMIT 1',[req.session.id_user]).then(function(rows){
       try {
         levelUser = rows[0].level_user;
         data.getLevelUser = levelUser;

@@ -59,9 +59,9 @@ router.get('/ubah-username',async function(req, res, next){
 
 
 router.all('*',function(req, res, next){
-  // if (!req.session.id_user) {
-  //   res.redirect('/');
-  // }
+  if (!req.session.id_user) {
+    res.redirect('/');
+  }
   next();
 });
 module.exports = router;
