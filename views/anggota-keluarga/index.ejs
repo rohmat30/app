@@ -71,8 +71,10 @@
             <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 col-lg-3 order-4 d-none d-lg-flex">Tanggal Lahir</div>
             <div class="py-0 py-md-2 pl-0 pr-md-2 pr-0 col-xl-2 order-5 d-none d-xl-flex">Jenis Kelamin</div>
         </div>
+        <% var anggota = 0 %>
         <% for(var i in data) { %>
         <% if (data[i].id_user != user.id_user) { %>
+            <% anggota++ %>
         <div class="ta-list-table">
             <div class="row m-0 py-2 py-md-0">
             <div class="py-0 py-md-2 pl-0 pr-2 col-md-4 col-lg-3 order-2 order-md-1"><span class="d-md-none">NIK</span> <%=data[i].nik%></div>
@@ -128,11 +130,12 @@
                 </table>
             </div>
         </div>
-        <% } else { %>
-        <div class="col-12 text-center alert alert-danger mt-3 mt-md-0">
-            Tidak atau belum ada anggata keluarga!
-        </div>
         <% } %>
+        <% } %>
+        <% if(anggota == 0) { %>
+            <div class="col-12 text-center alert alert-danger mt-3 mt-md-0">
+                Tidak atau belum ada anggata keluarga!
+            </div>
         <% } %>
     </div>
 </div>

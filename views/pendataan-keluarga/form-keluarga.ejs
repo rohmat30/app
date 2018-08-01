@@ -44,7 +44,7 @@
                         <option value="" disabled selected>- Pilih -</option>
                         <option value="pemilik"<%=locals.input.status_kepemilikan == 'pemilik' ? 'selected' : null%>>Pemilik</option>
                         <option value="kontrak"<%=locals.input.status_kepemilikan == 'kontrak' ? 'selected' : null%>>Kontrak</option>
-                        <option value="keluarga"<%=locals.input.status_kepemilikan == 'numpang' ? 'selected' : null%>>Numpang</option>
+                        <option value="numpang"<%=locals.input.status_kepemilikan == 'numpang' ? 'selected' : null%>>Numpang</option>
                     </select>
                     <% if (locals.field_error.status_kepemilikan) { %>
                         <small class="text-danger"><%=locals.field_error.status_kepemilikan.msg%></small>
